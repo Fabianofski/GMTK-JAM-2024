@@ -1,0 +1,76 @@
+﻿name: Build WebGL, Windows, Linux
+
+"on":
+  push:
+    branches:
+      - main
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+  UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+  BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+
+jobs:
+  buildTargetPlatforms:
+    name: Build for ${{ matrix.targetPlatform.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - name: windows
+            platform: StandaloneWindows64
+          - name: linux
+            platform: StandaloneLinux64
+          - name: mac
+            platform: StandaloneOSX
+          - name: webgl
+            platform: WebGL
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create LFS file list
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+
+      - name: Restore LFS cache
+        uses: actions/cache@v3
+        id: lfs-cache
+        with:
+          path: .git/lfs
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+
+      - name: Git LFS Pull
+        run: |
+          git lfs pull
+          git add .
+          git reset --hard
+
+      - name: Restore Library cache
+        uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-build-${{ matrix.targetPlatform.platform }}
+          restore-keys: |
+            Library-build-
+            Library-
+
+      - uses: game-ci/unity-builder@v4
+        with:
+          targetPlatform: ${{ matrix.targetPlatform.platform }}
+          buildName: GMTK-2024
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: GMTK-2024-${{ matrix.targetPlatform.name }}
+          path: build/${{ matrix.targetPlatform.platform }}
+
+      - name: Deploy to itch.io
+        uses: josephbmanley/butler-publish-itchio-action@v1.0.3
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+          CHANNEL: ${{ matrix.targetPlatform.name }}
+          ITCH_GAME: gmtk-2024
+          ITCH_USER: f4b1
+          PACKAGE: build/${{ matrix.targetPlatform.platform }}
