@@ -198,6 +198,9 @@ MonoBehaviour:
     tile: {fileID: 11400000, guid: acbd884bf924ed14495692ebf32db46a, type: 2}
   - railId: dl
     tile: {fileID: 11400000, guid: 0a187225aca253a49bfe2cb9841f23dc, type: 2}
+  - railId: udrl
+    tile: {fileID: 11400000, guid: 8e358b58a4baa1f4ebe71b9c09844611, type: 2}
+  defaultTile: {fileID: 11400000, guid: b54de36b0e2310e469cb34f61d7f8052, type: 2}
 --- !u!4 &47906123
 Transform:
   m_ObjectHideFlags: 0

@@ -26,6 +26,7 @@ namespace F4B1.Core
         [Header("Tilemap")] [SerializeField] private Tilemap tilemap;
         [SerializeField] private Grid grid;
         [SerializeField] private RailTile[] railTiles;
+        [SerializeField] private TileBase defaultTile;
 
 
         [Header("Mouse")] private Vector2 mouseWorldPos;
@@ -41,9 +42,25 @@ namespace F4B1.Core
         private void PlaceTile()
         {
             var cell = grid.WorldToCell(mouseWorldPos);
-            // if (tilemap.HasTile(cell)) return;
+            if (tilemap.HasTile(cell)) return;
             var tile = GetCorrectTile(cell);
             tilemap.SetTile(cell, tile);
+            UpdateSurroundingTiles(cell);
+        }
+
+        private void UpdateSurroundingTiles(Vector3Int cell)
+        {
+            for (var i = -1; i <= 1; i++)
+            {
+                for (var j = -1; j <= 1; j++)
+                {
+                    if (i == 0 && j == 0) continue;
+                    var surroundedCell = new Vector3Int(cell.x + i, cell.y + j, 0);
+                    if (!tilemap.HasTile(surroundedCell)) continue;
+                    var tile = GetCorrectTile(surroundedCell);
+                    tilemap.SetTile(surroundedCell, tile);
+                } 
+            } 
         }
 
         private TileBase GetCorrectTile(Vector3Int cell)
@@ -66,7 +83,8 @@ namespace F4B1.Core
                 id += left ? "l" : "";
             }
                 
-            var tile = railTiles.First(tile => tile.railId == id).tile;
+            var result = railTiles.FirstOrDefault(tile => tile.railId == id);
+            var tile = result != null ? result.tile : defaultTile;
             return tile;
         }
 
