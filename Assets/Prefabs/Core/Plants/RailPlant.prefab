@@ -21,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 399276781622724508, guid: 83dea230197bb104b911194d7e89e18b, type: 3}
       propertyPath: resourceId
-      value: wood
+      value: rail
       objectReference: {fileID: 0}
     - target: {fileID: 399276781622724508, guid: 83dea230197bb104b911194d7e89e18b, type: 3}
       propertyPath: neededResources.Array.size

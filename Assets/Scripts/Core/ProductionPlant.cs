@@ -6,11 +6,11 @@
 //  **/
 
 using System;
+using System.Collections;
 using System.Linq;
 using F4B1.UI;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace F4B1.Core
 {
@@ -35,6 +35,9 @@ namespace F4B1.Core
         [SerializeField] private PlantResources[] neededResources = { };
         [SerializeField] private GameObject uiNeededResourcePrefab;
         [SerializeField] private Transform uiNeededResourceParent;
+        [SerializeField] private float productionTime = 1;
+        [SerializeField] private int produceAmount = 1;
+        private bool producing = false;
 
         [Header("Output")] [SerializeField] private int stored = 20;
         [SerializeField] private int capacity = 30;
@@ -43,6 +46,7 @@ namespace F4B1.Core
 
         private void Start()
         {
+            StartCoroutine(Produce());
             capacityText.text = $"{stored}/{capacity}";
 
             foreach (var neededResource in neededResources)
@@ -62,6 +66,33 @@ namespace F4B1.Core
             FillWaggon(waggon);
         }
 
+        private IEnumerator Produce()
+        {
+            if (producing || stored >= capacity) yield break;
+            
+            foreach (var resource in neededResources)
+                if (resource.neededAmount > resource.storedAmount)
+                {
+                    producing = false; 
+                    yield break;
+                }
+
+            producing = true;
+            foreach (var resource in neededResources)
+            {
+                resource.storedAmount -= resource.neededAmount;
+                resource.UpdateUI();
+            }
+
+            stored += produceAmount;
+            stored = Mathf.Min(stored, capacity);
+            capacityText.text = $"{stored}/{capacity}";
+            
+            yield return new WaitForSeconds(productionTime);
+            producing = false;
+            StartCoroutine(Produce());
+        }
+
         private void EmptyWaggon(Waggon waggon)
         {
             var waggonResourceId = waggon.GetResourceId();
@@ -73,6 +104,8 @@ namespace F4B1.Core
 
             plantResource.storedAmount += diff;
             plantResource.UpdateUI();
+
+            StartCoroutine(Produce());
         }
 
         private void FillWaggon(Waggon waggon)
