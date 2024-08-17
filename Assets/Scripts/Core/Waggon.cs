@@ -20,7 +20,14 @@ namespace F4B1.Core
         [SerializeField] private string storedResourceId = "empty";
         [SerializeField] private int stored = 0; 
         
-        
+        public string GetResourceId() => storedResourceId;
+
+        private void Start()
+        {
+            storedText.text = $"{stored}/{capacity}";
+            UpdateStoredResource(storedResourceId);
+        }
+
         public void Move(float speed, Vector2 direction)
         {
             var pos = transform.position;
@@ -39,18 +46,17 @@ namespace F4B1.Core
             var diff = Mathf.Min(maxAmount, capacity - stored);
             stored += diff;
             storedText.text = $"{stored}/{capacity}";
-            
+
             if (storedResourceId != resourceId && diff != 0)
             {
-                getWaggonById(storedResourceId)?.SetActive(false);
-                getWaggonById(resourceId)?.SetActive(true);
+                UpdateStoredResource(resourceId);
+                storedResourceId = resourceId;
             }
-            storedResourceId = resourceId;
             
             return diff;
         }
 
-        private GameObject getWaggonById(string id)
+        private GameObject GetWaggonById(string id)
         {
             for (var i = 0; i < transform.childCount; i++)
             {
@@ -61,9 +67,22 @@ namespace F4B1.Core
 
             return null;
         }
-        
-        public void Empty()
+
+        private void UpdateStoredResource(string id)
         {
+            GetWaggonById(storedResourceId)?.SetActive(false);
+            GetWaggonById(id)?.SetActive(true);
+            storedResourceId = id;
+        }
+        
+        public int Empty(int requestedAmount)
+        {
+            var amount = Mathf.Min(requestedAmount, stored);
+            stored -= amount;
+            if (stored <= 0)
+               UpdateStoredResource("empty"); 
+
+            return amount;
         }
     }
 }
