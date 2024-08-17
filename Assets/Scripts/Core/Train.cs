@@ -12,14 +12,22 @@ namespace F4B1.Core
 {
     public class Train : MonoBehaviour
     {
+        [Header("Movement")]
+        private TrainNavigator navigator;
+        private LineRenderer lineRenderer;
         [SerializeField] private Vector2 direction;
         [SerializeField] private bool reachedDeadEnd;
         [SerializeField] private Vector2 targetPos;
         [SerializeField] private float speed = 10;
 
-        private TrainNavigator navigator;
+        [Header("Waggons")] 
+        [SerializeField] private int waggonCount;
+        [SerializeField] private GameObject waggonPrefab;
+        private readonly List<Vector2> lastDirections = new List<Vector2>();
+        private readonly List<Waggon> waggons = new List<Waggon>();
+        
+        [Header("Animations")]
         private Animator animator;
-        private LineRenderer lineRenderer;
         private static readonly int Y = Animator.StringToHash("y");
         private static readonly int X = Animator.StringToHash("x");
 
@@ -30,6 +38,20 @@ namespace F4B1.Core
             UpdateTrainLinePath();
             animator = GetComponent<Animator>();
             UpdateAnimator();
+            AddAllWaggons();
+        }
+
+        private void AddAllWaggons()
+        {
+            for (var i = 1; i <= waggonCount; i++)
+                AddWaggon(transform.position - (Vector3)(direction * i));
+        }
+
+        private void AddWaggon(Vector3 position)
+        {
+            var waggon = Instantiate(waggonPrefab, position, Quaternion.identity);
+            lastDirections.Add(direction);
+            waggons.Add(waggon.GetComponent<Waggon>());
         }
 
         private void UpdateTrainLinePath()
@@ -65,6 +87,12 @@ namespace F4B1.Core
         private void Move()
         {
             transform.Translate(direction * (speed * Time.deltaTime ));
+            for (var i = 0; i < waggonCount; i++)
+            {
+                var waggon = waggons[i];
+                var waggonDir = lastDirections[i];
+                waggon.Move(speed, waggonDir); 
+            }
         }
 
         private void CalculateNewPosition()
@@ -78,6 +106,11 @@ namespace F4B1.Core
             reachedDeadEnd = newDirection == Vector2.zero;
 
             if (reachedDeadEnd) return;
+            
+            lastDirections.Insert(0, direction);
+            if (lastDirections.Count > waggonCount)
+                lastDirections.RemoveAt(lastDirections.Count - 1);
+            
             direction = newDirection;
             targetPos += direction;
             UpdateAnimator();
