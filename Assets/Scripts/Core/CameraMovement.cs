@@ -7,6 +7,7 @@
 
 using System;
 using Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,17 +17,34 @@ namespace F4B1.Core
     {
         [Header("Movement")]
         private Vector2 input;
+        [SerializeField] private InputAction moveInputAction;
         [SerializeField] private Transform cameraTarget;
         [SerializeField] private float speed;
 
         [Header("Scrolling")] 
         private float scrollInput;
+        [SerializeField] private InputAction onScrollAction;
         [SerializeField] private CinemachineVirtualCamera cinemachine;
         [SerializeField] private Vector2 scrollBounds;
         [SerializeField] private float scrollSpeed;
 
+        private void OnEnable()
+        {
+            onScrollAction.Enable();
+            moveInputAction.Enable();
+        }
+
+        private void OnDisable()
+        {
+            onScrollAction.Disable();
+            moveInputAction.Disable();
+        }
+        
         public void Update()
         {
+            input = moveInputAction.ReadValue<Vector2>();
+            scrollInput = -onScrollAction.ReadValue<Vector2>().y;
+            
             cameraTarget.Translate(input * (speed * Time.deltaTime));
             var newScrollSize = cinemachine.m_Lens.OrthographicSize + scrollInput * scrollSpeed * Time.deltaTime;
             newScrollSize = Math.Clamp(newScrollSize, scrollBounds.x, scrollBounds.y);

@@ -15666,7 +15666,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1921139268}
   - component: {fileID: 1921139267}
-  - component: {fileID: 1921139266}
   m_Layer: 0
   m_Name: CameraMovement
   m_TagString: Untagged
@@ -15674,36 +15673,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1921139266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1921139265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 5efc91c01d6311e47aae55dee98ead93, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 1260567624}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 519420031}
 --- !u!114 &1921139267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15716,8 +15685,106 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147efb2cae854707b19ddac6c90fde1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveInputAction:
+    m_Name: Move Input
+    m_Type: 0
+    m_ExpectedControlType: Vector2
+    m_Id: 0fd84aee-ead7-4eab-9e68-1a924327dbaf
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 2D Vector
+      m_Id: 24eaa2d6-9476-464c-8420-edfa3454c710
+      m_Path: 2DVector
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move Input
+      m_Flags: 4
+    - m_Name: up
+      m_Id: da604d29-9f86-47b8-a196-f2346d00c342
+      m_Path: <Keyboard>/w
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move Input
+      m_Flags: 8
+    - m_Name: down
+      m_Id: f9de6542-528e-4346-a1fa-2d99cba220df
+      m_Path: <Keyboard>/s
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move Input
+      m_Flags: 8
+    - m_Name: left
+      m_Id: 036a423d-07fe-4fe5-abf2-42b2b1d9291f
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move Input
+      m_Flags: 8
+    - m_Name: right
+      m_Id: b53bcf2c-44d1-41d9-b19e-1589e427b5ab
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move Input
+      m_Flags: 8
+    - m_Name: up
+      m_Id: 05d97ed5-dc04-438e-864e-dfd39b98d742
+      m_Path: <Keyboard>/upArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move Input
+      m_Flags: 8
+    - m_Name: down
+      m_Id: 8ac0456a-7e16-465d-9b4d-b3af150fbe88
+      m_Path: <Keyboard>/downArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move Input
+      m_Flags: 8
+    - m_Name: left
+      m_Id: 1390f8f6-7430-4ed9-b163-38ce9b1afcd1
+      m_Path: <Keyboard>/leftArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move Input
+      m_Flags: 8
+    - m_Name: right
+      m_Id: 89295b76-172a-4039-b6dc-49e70a1734cf
+      m_Path: <Keyboard>/rightArrow
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Move Input
+      m_Flags: 8
+    m_Flags: 0
   cameraTarget: {fileID: 1439675502}
   speed: 5
+  onScrollAction:
+    m_Name: On Scroll
+    m_Type: 0
+    m_ExpectedControlType: Vector2
+    m_Id: d1dab70b-75c3-433b-acbc-ed4e00f72713
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: c14565d5-c44f-454e-a81e-a10001445005
+      m_Path: <Mouse>/scroll
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: On Scroll
+      m_Flags: 0
+    m_Flags: 0
   cinemachine: {fileID: 1223397941}
   scrollBounds: {x: 3, y: 10}
   scrollSpeed: 2
