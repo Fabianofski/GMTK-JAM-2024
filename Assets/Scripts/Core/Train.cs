@@ -64,7 +64,7 @@ namespace F4B1.Core
 
         private void Move()
         {
-            transform.Translate(direction * (speed / 500));
+            transform.Translate(direction * (speed * Time.deltaTime ));
         }
 
         private void CalculateNewPosition()
