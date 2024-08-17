@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Trains
+    uniqueID: 863711793
+    locked: 0
+  - name: World Canvas
+    uniqueID: 432283293
+    locked: 0
