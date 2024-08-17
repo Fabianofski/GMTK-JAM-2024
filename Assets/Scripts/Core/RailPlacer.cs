@@ -92,6 +92,7 @@ namespace F4B1.Core
         {
             var cell = grid.WorldToCell(mouseWorldPos);
             tilemap.SetTile(cell, null);
+            UpdateSurroundingTiles(cell);
         }
 
         public void OnMouseMove(InputValue value)
