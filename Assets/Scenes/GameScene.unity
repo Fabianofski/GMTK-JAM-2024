@@ -2432,7 +2432,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 2009652298, guid: e98c198c3cc7cd641888d05e102f185f, type: 3}
+  m_Sprite: {fileID: -1018389431, guid: e98c198c3cc7cd641888d05e102f185f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2477,8 +2477,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: 1, y: 0}
+  reachedDeadEnd: 0
   targetPos: {x: -2, y: 0}
-  speed: 1
+  speed: 3
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

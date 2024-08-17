@@ -18,10 +18,15 @@ namespace F4B1.Core
         [SerializeField] private float speed = 10;
         
         private TrainNavigator navigator;
+        private Animator animator;
+        private static readonly int Y = Animator.StringToHash("y");
+        private static readonly int X = Animator.StringToHash("x");
 
         private void Start()
         {
             navigator = FindObjectOfType<TrainNavigator>();
+            animator = GetComponent<Animator>();
+            UpdateAnimator();
         }
 
         private void Update()
@@ -37,8 +42,6 @@ namespace F4B1.Core
 
         private void CalculateNewPosition()
         {
-            Debug.Log("Reached Target Pos!");
-
             var pos = Vector3Int.RoundToInt(transform.position);
             var newDirection = navigator.GetNewDirection(pos, direction);
 
@@ -50,6 +53,13 @@ namespace F4B1.Core
             if (reachedDeadEnd) return;
             direction = newDirection;
             targetPos += direction;
+            UpdateAnimator();
+        }
+
+        private void UpdateAnimator()
+        {
+            animator.SetFloat(X, direction.x);
+            animator.SetFloat(Y, direction.y);
         }
 
         private bool ReachedTargetPos()
