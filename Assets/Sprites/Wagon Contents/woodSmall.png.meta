@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 384537d2c6632814b9f4eea306c169c5
+guid: 573ab389ecdc48640be2fd29f409cc8b
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,76 +117,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: wagonSmall_0
+      name: woodSmall_0
       rect:
         serializedVersion: 2
-        x: 30
-        y: 98
-        width: 68
-        height: 54
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b3f8db6060c90d3498bd96c8074cb0e1
-      internalID: 1813233228
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: wagonSmall_1
-      rect:
-        serializedVersion: 2
-        x: 158
-        y: 99
-        width: 68
-        height: 53
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0b7f998f8bb1802479aabe364e372a0e
-      internalID: -823553705
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: wagonSmall_2
-      rect:
-        serializedVersion: 2
-        x: 286
-        y: 98
-        width: 68
-        height: 54
-      alignment: 9
-      pivot: {x: 0.5, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 09e7680d3fc1dcf43a0d26d7763754ea
-      internalID: -1651127437
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: wagonSmall_3
-      rect:
-        serializedVersion: 2
-        x: 36
-        y: 3
-        width: 56
-        height: 55
+        x: 37
+        y: 133
+        width: 54
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,20 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7db81f44bb69a2d46a5ea83f96051cf7
-      internalID: -1461251881
+      spriteID: 353e285e2f7a81d489fc49688b0ed728
+      internalID: -1737162243
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wagonSmall_4
+      name: woodSmall_1
       rect:
         serializedVersion: 2
-        x: 164
-        y: 4
-        width: 56
-        height: 54
+        x: 165
+        y: 134
+        width: 54
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b07dddc5f83d88488c5363f98c703b1
-      internalID: -917602209
+      spriteID: 396df4a07c9e20d4f9c6eaac2d644a6b
+      internalID: -562897295
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wagonSmall_5
+      name: woodSmall_2
       rect:
         serializedVersion: 2
-        x: 292
-        y: 3
-        width: 56
-        height: 55
+        x: 293
+        y: 133
+        width: 54
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -236,8 +173,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dfee74ba07b9bb847bf9acd1cca75b43
-      internalID: 2066201974
+      spriteID: 897f443225fc22f4bbfcff6205e3b7dc
+      internalID: -1123109803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: woodSmall_3
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 37
+        width: 42
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c02c4340ee0445f4aa24d2fd047df6d4
+      internalID: 1071529376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: woodSmall_4
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 38
+        width: 42
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d82de7eac50dfd40b05dc9f8b3fb347
+      internalID: -729500426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: woodSmall_5
+      rect:
+        serializedVersion: 2
+        x: 299
+        y: 37
+        width: 42
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97030db14c920e64d99aadccc035a3f9
+      internalID: 94005820
       vertices: []
       indices: 
       edges: []
@@ -253,12 +253,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      wagonSmall_0: 1813233228
-      wagonSmall_1: -823553705
-      wagonSmall_2: -1651127437
-      wagonSmall_3: -1461251881
-      wagonSmall_4: -917602209
-      wagonSmall_5: 2066201974
+      woodSmall_0: -1737162243
+      woodSmall_1: -562897295
+      woodSmall_2: -1123109803
+      woodSmall_3: 1071529376
+      woodSmall_4: -729500426
+      woodSmall_5: 94005820
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
