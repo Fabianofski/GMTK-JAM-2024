@@ -59,8 +59,8 @@ namespace F4B1.Core
                     if (!tilemap.HasTile(surroundedCell)) continue;
                     var tile = GetCorrectTile(surroundedCell);
                     tilemap.SetTile(surroundedCell, tile);
-                } 
-            } 
+                }
+            }
         }
 
         private TileBase GetCorrectTile(Vector3Int cell)
@@ -82,7 +82,7 @@ namespace F4B1.Core
                 id += right ? "r" : "";
                 id += left ? "l" : "";
             }
-                
+
             var result = railTiles.FirstOrDefault(tile => tile.railId == id);
             var tile = result != null ? result.tile : defaultTile;
             return tile;

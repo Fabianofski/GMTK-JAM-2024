@@ -13,8 +13,7 @@ namespace F4B1.Core
 {
     public class TrainNavigator : MonoBehaviour
     {
-        [Header("Tilemaps")] 
-        [SerializeField] private Tilemap tilemap;
+        [Header("Tilemaps")] [SerializeField] private Tilemap tilemap;
         [SerializeField] private Grid grid;
 
 
@@ -30,7 +29,7 @@ namespace F4B1.Core
 
             var leftTangent = new Vector2(-direction.y, direction.x);
             var rightTangent = new Vector2(direction.y, -direction.x);
-            
+
             if (possibleDirections[direction])
                 return direction;
             else if (possibleDirections[leftTangent])
