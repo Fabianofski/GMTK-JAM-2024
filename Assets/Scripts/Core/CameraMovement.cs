@@ -7,8 +7,8 @@
 
 using System;
 using Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.InputSystem;
 
 namespace F4B1.Core
@@ -25,13 +25,16 @@ namespace F4B1.Core
         private float scrollInput;
         [SerializeField] private InputAction onScrollAction;
         [SerializeField] private CinemachineVirtualCamera cinemachine;
+        [SerializeField] private PixelPerfectCamera pixelPerfectCamera;
         [SerializeField] private Vector2 scrollBounds;
         [SerializeField] private float scrollSpeed;
+        private float scrollSize;
 
         private void OnEnable()
         {
             onScrollAction.Enable();
             moveInputAction.Enable();
+            scrollSize = pixelPerfectCamera.assetsPPU;
         }
 
         private void OnDisable()
@@ -43,12 +46,12 @@ namespace F4B1.Core
         public void Update()
         {
             input = moveInputAction.ReadValue<Vector2>();
-            scrollInput = -onScrollAction.ReadValue<Vector2>().y;
+            scrollInput = onScrollAction.ReadValue<Vector2>().y;
             
             cameraTarget.Translate(input * (speed * Time.deltaTime));
-            var newScrollSize = cinemachine.m_Lens.OrthographicSize + scrollInput * scrollSpeed * Time.deltaTime;
-            newScrollSize = Math.Clamp(newScrollSize, scrollBounds.x, scrollBounds.y);
-            cinemachine.m_Lens.OrthographicSize = newScrollSize;
+            scrollSize += scrollInput * scrollSpeed * Time.deltaTime;
+            scrollSize = Math.Clamp(scrollSize, scrollBounds.x, scrollBounds.y);
+            pixelPerfectCamera.assetsPPU = Mathf.RoundToInt(scrollSize);
         }
 
         public void OnNavigate(InputValue value)
