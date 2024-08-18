@@ -5,10 +5,8 @@
 //  * Distributed under the terms of the MIT license (cf. LICENSE.md file)
 //  **/
 
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace F4B1.Core
 {
@@ -18,29 +16,44 @@ namespace F4B1.Core
         [SerializeField] private Vector2 offset;
         
         [SerializeField] private TextMeshProUGUI storedText;
+        [SerializeField] private TextMeshProUGUI capacityText;
+        [SerializeField] private Color gold;
         [SerializeField] private int capacity = 10;
         [SerializeField] private string storedResourceId = "empty";
         [SerializeField] private int stored = 0;
 
         private Animator animator;
+        private Animator contentAnimator;
         private static readonly int Y = Animator.StringToHash("y");
         private static readonly int X = Animator.StringToHash("x");
 
         private Vector2 oldDirection = new Vector2(-1, -1);
         
         public string GetResourceId() => storedResourceId;
+        public int GetStoredAmount() => stored;
 
         private void Start()
         {
             animator = GetComponent<Animator>();
-            storedText.text = $"{stored}/{capacity}";
+            UpdateText();
             UpdateStoredResource(storedResourceId);
         }
 
+        private void UpdateText()
+        {
+            storedText.text = $"{stored}"; 
+            storedText.color = stored == capacity ? gold : Color.white;
+            capacityText.text = $"/{capacity}";
+        }
+        
         private void UpdateAnimator(Vector2 direction)
         {
             animator.SetFloat(X, direction.x);
             animator.SetFloat(Y, direction.y);
+
+            if (!contentAnimator) return;
+            contentAnimator.SetFloat(X, direction.x);
+            contentAnimator.SetFloat(Y, direction.y);
         }
         
         public void Move(float speed, Vector2 direction)
@@ -55,6 +68,7 @@ namespace F4B1.Core
             
             UpdateAnimator(direction);
             ApplyOffset(direction);
+            
             oldDirection = direction;
         }
 
@@ -74,7 +88,7 @@ namespace F4B1.Core
 
             var diff = Mathf.Min(maxAmount, capacity - stored);
             stored += diff;
-            storedText.text = $"{stored}/{capacity}";
+            UpdateText();
 
             if (storedResourceId != resourceId && diff != 0)
             {
@@ -85,7 +99,7 @@ namespace F4B1.Core
             return diff;
         }
 
-        private GameObject GetWaggonById(string id)
+        private GameObject GetContentById(string id)
         {
             for (var i = 0; i < transform.childCount; i++)
             {
@@ -99,8 +113,14 @@ namespace F4B1.Core
 
         private void UpdateStoredResource(string id)
         {
-            GetWaggonById(storedResourceId)?.SetActive(false);
-            GetWaggonById(id)?.SetActive(true);
+            GetContentById(storedResourceId)?.SetActive(false);
+            var content = GetContentById(id);
+            if (!content) return;
+            
+            content.SetActive(true);
+            contentAnimator = null;
+            if (content.TryGetComponent<Animator>(out var anim))
+                contentAnimator = anim;
             storedResourceId = id;
         }
         
@@ -108,6 +128,7 @@ namespace F4B1.Core
         {
             var amount = Mathf.Min(requestedAmount, stored);
             stored -= amount;
+            UpdateText();
             if (stored <= 0)
                UpdateStoredResource("empty"); 
 

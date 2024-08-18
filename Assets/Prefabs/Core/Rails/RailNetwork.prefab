@@ -91,6 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dfb61165435131488eca854db75dfd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  railCount: {fileID: 11400000, guid: b1d17d179d859cf4b83a1cbe07ddc9ac, type: 2}
+  selectedItem: {fileID: 11400000, guid: 27f601bcec3d043448fe403245a3a2fe, type: 2}
   tilemap: {fileID: 9209579240933501801}
   grid: {fileID: 9209579240275834165}
   railTiles:

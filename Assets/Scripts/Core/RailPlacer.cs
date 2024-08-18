@@ -7,9 +7,10 @@
 
 using System;
 using System.Linq;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 namespace F4B1.Core
@@ -23,6 +24,9 @@ namespace F4B1.Core
 
     public class RailPlacer : MonoBehaviour
     {
+        [SerializeField] private IntVariable railCount;
+        [SerializeField] private StringVariable selectedItem;
+        
         [Header("Tilemap")] [SerializeField] private Tilemap tilemap;
         [SerializeField] private Grid grid;
         [SerializeField] private RailTile[] railTiles;
@@ -31,21 +35,26 @@ namespace F4B1.Core
 
         [Header("Mouse")] private Vector2 mouseWorldPos;
         private bool leftClicking;
-        private bool rightClicking;
 
         private void Update()
         {
-            if (leftClicking) PlaceTile();
-            else if (rightClicking) RemoveTile();
+            if (!leftClicking || IsPointerOverUI()) return;
+            
+            if (selectedItem.Value == "rails") PlaceTile();
+            else if (selectedItem.Value == "bulldozer") RemoveTile();
         }
 
         private void PlaceTile()
         {
+            if (railCount.Value <= 0) return;
+            
             var cell = grid.WorldToCell(mouseWorldPos);
             if (tilemap.HasTile(cell)) return;
             var tile = GetCorrectTile(cell);
             tilemap.SetTile(cell, tile);
             UpdateSurroundingTiles(cell);
+            
+            railCount.Subtract(1);
         }
 
         private void UpdateSurroundingTiles(Vector3Int cell)
@@ -91,8 +100,10 @@ namespace F4B1.Core
         private void RemoveTile()
         {
             var cell = grid.WorldToCell(mouseWorldPos);
+            if (!tilemap.HasTile(cell)) return;
             tilemap.SetTile(cell, null);
             UpdateSurroundingTiles(cell);
+            railCount.Add(1);
         }
 
         public void OnMouseMove(InputValue value)
@@ -106,9 +117,9 @@ namespace F4B1.Core
             leftClicking = value.isPressed;
         }
 
-        public void OnRightClick(InputValue value)
+        private bool IsPointerOverUI()
         {
-            rightClicking = value.isPressed;
+            return EventSystem.current.IsPointerOverGameObject();
         }
     }
 }
