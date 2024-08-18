@@ -5,10 +5,8 @@
 //  * Distributed under the terms of the MIT license (cf. LICENSE.md file)
 //  **/
 
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace F4B1.Core
 {
@@ -18,6 +16,8 @@ namespace F4B1.Core
         [SerializeField] private Vector2 offset;
         
         [SerializeField] private TextMeshProUGUI storedText;
+        [SerializeField] private TextMeshProUGUI capacityText;
+        [SerializeField] private Color gold;
         [SerializeField] private int capacity = 10;
         [SerializeField] private string storedResourceId = "empty";
         [SerializeField] private int stored = 0;
@@ -30,14 +30,22 @@ namespace F4B1.Core
         private Vector2 oldDirection = new Vector2(-1, -1);
         
         public string GetResourceId() => storedResourceId;
+        public int GetStoredAmount() => stored;
 
         private void Start()
         {
             animator = GetComponent<Animator>();
-            storedText.text = $"{stored}/{capacity}";
+            UpdateText();
             UpdateStoredResource(storedResourceId);
         }
 
+        private void UpdateText()
+        {
+            storedText.text = $"{stored}"; 
+            storedText.color = stored == capacity ? gold : Color.white;
+            capacityText.text = $"/{capacity}";
+        }
+        
         private void UpdateAnimator(Vector2 direction)
         {
             animator.SetFloat(X, direction.x);
@@ -80,7 +88,7 @@ namespace F4B1.Core
 
             var diff = Mathf.Min(maxAmount, capacity - stored);
             stored += diff;
-            storedText.text = $"{stored}/{capacity}";
+            UpdateText();
 
             if (storedResourceId != resourceId && diff != 0)
             {
@@ -120,6 +128,7 @@ namespace F4B1.Core
         {
             var amount = Mathf.Min(requestedAmount, stored);
             stored -= amount;
+            UpdateText();
             if (stored <= 0)
                UpdateStoredResource("empty"); 
 

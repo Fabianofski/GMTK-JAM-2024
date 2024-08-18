@@ -25,7 +25,7 @@ namespace F4B1.Core
 
         public void UpdateUI()
         {
-            ui.UpdateNeededResourceUI(storedAmount, capacity, id);
+            ui.UpdateNeededResourceUI(storedAmount, neededAmount, capacity, id);
         }
     }
 
@@ -46,10 +46,12 @@ namespace F4B1.Core
         [SerializeField] private int capacity = 30;
         [SerializeField] private string resourceId;
         [SerializeField] private TextMeshProUGUI capacityText;
+        [SerializeField] private TextMeshProUGUI storedText;
+        [SerializeField] private Color gold;
 
         private void Start()
         {
-            capacityText.text = $"{stored}/{capacity}";
+            UpdateText();
 
             foreach (var neededResource in neededResources)
             {
@@ -60,6 +62,13 @@ namespace F4B1.Core
 
             timer = productionTime;
             CheckResources();
+        }
+
+        private void UpdateText()
+        {
+            storedText.text = $"{stored}"; 
+            storedText.color = stored == capacity ? gold : Color.white;
+            capacityText.text = $"/{capacity}";
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -73,6 +82,8 @@ namespace F4B1.Core
 
         private void Update()
         {
+            if (stored == capacity) return;
+            
             if (timer <= 0)
             {
                 timer = productionTime;
@@ -96,7 +107,7 @@ namespace F4B1.Core
 
             stored += produceAmount;
             stored = Mathf.Min(stored, capacity);
-            capacityText.text = $"{stored}/{capacity}";
+            UpdateText();
             
             CheckResources();
         }
@@ -124,7 +135,7 @@ namespace F4B1.Core
         private void FillWaggon(Waggon waggon)
         {
             stored -= waggon.Fill(resourceId, stored);
-            capacityText.text = $"{stored}/{capacity}";
+            UpdateText();
         }
     }
 }

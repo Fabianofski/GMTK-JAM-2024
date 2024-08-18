@@ -14,12 +14,23 @@ namespace F4B1.UI
     public class UINeededResource : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI storedText;
+        [SerializeField] private TextMeshProUGUI neededText;
+        [SerializeField] private TextMeshProUGUI capacityText;
+        [SerializeField] private Color red;
+        [SerializeField] private Color green;
+        [SerializeField] private Color gold;
         [SerializeField] private Image icon;
         [SerializeField] private Sprite[] resourceIcons; 
 
-        public void UpdateNeededResourceUI(int amount, int capacity, string resourceId)
+        public void UpdateNeededResourceUI(int stored, int needed, int capacity, string resourceId)
         {
-            storedText.text = $"{amount}/{capacity}";
+            storedText.text = $"{stored}";
+            storedText.color = stored < needed ? red : green;
+            if (stored == capacity) storedText.color = gold;
+            neededText.text = $"/{needed}";
+            capacityText.text = $"Max. {capacity}";
+            
+            
             icon.sprite = FindSpriteByResourceId(resourceId);
         }
 

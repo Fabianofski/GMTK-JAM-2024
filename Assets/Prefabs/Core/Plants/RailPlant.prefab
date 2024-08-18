@@ -81,12 +81,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531855, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: resourceId
-      value: rail
+      value: rails
       objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531855, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
-      propertyPath: capacityText
-      value: 
-      objectReference: {fileID: 3044673993497513289}
+      propertyPath: produceAmount
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531855, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: productionTime
       value: 5
@@ -105,11 +105,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531855, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: neededResources.Array.data[0].capacity
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531855, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: neededResources.Array.data[1].capacity
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531855, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: neededResources.Array.data[0].neededAmount
@@ -121,14 +121,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
---- !u!114 &3044673993497513289 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5153179745163391837, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
-  m_PrefabInstance: {fileID: 7909199942688292372}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
