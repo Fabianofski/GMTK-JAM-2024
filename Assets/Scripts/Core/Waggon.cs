@@ -27,7 +27,7 @@ namespace F4B1.Core
         private static readonly int Y = Animator.StringToHash("y");
         private static readonly int X = Animator.StringToHash("x");
 
-        private Vector2 oldDirection = new Vector2(-1, -1);
+        [SerializeField] private Vector2 oldDirection = new Vector2(-1, -1);
         
         public string GetResourceId() => storedResourceId;
         public int GetStoredAmount() => stored;

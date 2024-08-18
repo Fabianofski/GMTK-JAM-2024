@@ -24,7 +24,6 @@ namespace F4B1.Core
         [Header("Scrolling")] 
         private float scrollInput;
         [SerializeField] private InputAction onScrollAction;
-        [SerializeField] private CinemachineVirtualCamera cinemachine;
         [SerializeField] private PixelPerfectCamera pixelPerfectCamera;
         [SerializeField] private Vector2 scrollBounds;
         [SerializeField] private float scrollSpeed;

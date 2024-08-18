@@ -49,7 +49,7 @@ namespace F4B1.Core
 
         private void AddWaggon(Vector3 position)
         {
-            var waggon = Instantiate(waggonPrefab, position, Quaternion.identity);
+            var waggon = Instantiate(waggonPrefab, position, Quaternion.identity, transform.parent);
             lastDirections.Add(direction);
             waggons.Add(waggon.GetComponent<Waggon>());
         }
@@ -105,7 +105,11 @@ namespace F4B1.Core
 
             reachedDeadEnd = newDirection == Vector2.zero;
 
-            if (reachedDeadEnd) return;
+            if (reachedDeadEnd)
+            {
+                targetPos = Vector2Int.RoundToInt(transform.position);
+                return;
+            }
             
             lastDirections.Insert(0, direction);
             if (lastDirections.Count > waggonCount)

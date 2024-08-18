@@ -38,6 +38,7 @@ namespace F4B1.Core
         [SerializeField] private float productionTime = 1;
         private float timer;
         [SerializeField] private bool plantHasEnoughResources;
+        [SerializeField] private bool plantIsConnected;
         [SerializeField] private int produceAmount = 1;
         [SerializeField] private Image progress;
 
@@ -82,7 +83,7 @@ namespace F4B1.Core
 
         private void Update()
         {
-            if (stored == capacity) return;
+            if (stored == capacity || !plantIsConnected) return;
             
             if (timer <= 0)
             {
