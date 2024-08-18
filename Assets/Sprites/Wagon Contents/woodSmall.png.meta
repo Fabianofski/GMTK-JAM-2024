@@ -120,10 +120,10 @@ TextureImporter:
       name: woodSmall_0
       rect:
         serializedVersion: 2
-        x: 37
+        x: 35
         y: 133
-        width: 54
-        height: 24
+        width: 58
+        height: 20
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,10 +141,10 @@ TextureImporter:
       name: woodSmall_1
       rect:
         serializedVersion: 2
-        x: 165
+        x: 163
         y: 134
-        width: 54
-        height: 24
+        width: 58
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,10 +162,10 @@ TextureImporter:
       name: woodSmall_2
       rect:
         serializedVersion: 2
-        x: 293
+        x: 291
         y: 133
-        width: 54
-        height: 23
+        width: 58
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,10 +183,10 @@ TextureImporter:
       name: woodSmall_3
       rect:
         serializedVersion: 2
-        x: 43
+        x: 38
         y: 37
-        width: 42
-        height: 24
+        width: 52
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,10 +204,10 @@ TextureImporter:
       name: woodSmall_4
       rect:
         serializedVersion: 2
-        x: 171
+        x: 166
         y: 38
-        width: 42
-        height: 24
+        width: 52
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -225,10 +225,10 @@ TextureImporter:
       name: woodSmall_5
       rect:
         serializedVersion: 2
-        x: 299
+        x: 294
         y: 37
-        width: 42
-        height: 23
+        width: 52
+        height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
