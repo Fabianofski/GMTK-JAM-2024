@@ -25,6 +25,7 @@ namespace F4B1.Core
         private float scrollInput;
         [SerializeField] private InputAction onScrollAction;
         [SerializeField] private PixelPerfectCamera pixelPerfectCamera;
+        [SerializeField] private CinemachineVirtualCamera cinemachine; 
         [SerializeField] private Vector2 scrollBounds;
         [SerializeField] private float scrollSpeed;
         private float scrollSize;
@@ -55,12 +56,18 @@ namespace F4B1.Core
 
         public void OnNavigate(InputValue value)
         {
+            cinemachine.Follow = cameraTarget;
             input = value.Get<Vector2>();
         }
 
         public void OnScroll(InputValue value)
         {
             scrollInput = -value.Get<Vector2>().y;
+        }
+
+        public void SetCameraTarget(GameObject target)
+        {
+            cinemachine.Follow = target.transform;
         }
     }
 }
