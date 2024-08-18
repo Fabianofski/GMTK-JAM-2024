@@ -76,20 +76,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531854, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 44fe38a951079244a9694b0eaf247fc9, type: 3}
+    - target: {fileID: 8015413352512531854, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: m_Color.a
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531854, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: m_Color.b
-      value: 0.21960786
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531854, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: m_Color.g
-      value: 0.21960786
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531854, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: m_Color.r
-      value: 0.21960786
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531855, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: stored
@@ -102,6 +106,10 @@ PrefabInstance:
     - target: {fileID: 8015413352512531855, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: resourceId
       value: metal
+      objectReference: {fileID: 0}
+    - target: {fileID: 8015413352512531855, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
+      propertyPath: productionTime
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}

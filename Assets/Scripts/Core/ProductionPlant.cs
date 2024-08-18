@@ -6,11 +6,11 @@
 //  **/
 
 using System;
-using System.Collections;
 using System.Linq;
 using F4B1.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace F4B1.Core
 {
@@ -36,17 +36,19 @@ namespace F4B1.Core
         [SerializeField] private GameObject uiNeededResourcePrefab;
         [SerializeField] private Transform uiNeededResourceParent;
         [SerializeField] private float productionTime = 1;
+        private float timer;
+        [SerializeField] private bool plantHasEnoughResources;
         [SerializeField] private int produceAmount = 1;
-        private bool producing = false;
+        [SerializeField] private Image progress;
 
-        [Header("Output")] [SerializeField] private int stored = 20;
+        [Header("Output")] 
+        [SerializeField] private int stored = 20;
         [SerializeField] private int capacity = 30;
         [SerializeField] private string resourceId;
         [SerializeField] private TextMeshProUGUI capacityText;
 
         private void Start()
         {
-            StartCoroutine(Produce());
             capacityText.text = $"{stored}/{capacity}";
 
             foreach (var neededResource in neededResources)
@@ -55,6 +57,9 @@ namespace F4B1.Core
                 neededResource.ui = go.GetComponentInChildren<UINeededResource>();
                 neededResource.UpdateUI();
             }
+
+            timer = productionTime;
+            CheckResources();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -66,18 +71,23 @@ namespace F4B1.Core
             FillWaggon(waggon);
         }
 
-        private IEnumerator Produce()
+        private void Update()
         {
-            if (producing || stored >= capacity) yield break;
-            
-            foreach (var resource in neededResources)
-                if (resource.neededAmount > resource.storedAmount)
-                {
-                    producing = false; 
-                    yield break;
-                }
+            if (timer <= 0)
+            {
+                timer = productionTime;
+                progress.fillAmount = 1 - timer / productionTime;
+                ProduceItem();
+            } 
+            else if (plantHasEnoughResources)
+            {
+                timer -= Time.deltaTime;
+                progress.fillAmount = 1 - timer / productionTime;
+            }
+        }
 
-            producing = true;
+        private void ProduceItem()
+        {
             foreach (var resource in neededResources)
             {
                 resource.storedAmount -= resource.neededAmount;
@@ -88,9 +98,12 @@ namespace F4B1.Core
             stored = Mathf.Min(stored, capacity);
             capacityText.text = $"{stored}/{capacity}";
             
-            yield return new WaitForSeconds(productionTime);
-            producing = false;
-            StartCoroutine(Produce());
+            CheckResources();
+        }
+
+        private void CheckResources()
+        {
+            plantHasEnoughResources = neededResources.All(resource => resource.neededAmount <= resource.storedAmount);
         }
 
         private void EmptyWaggon(Waggon waggon)
@@ -105,7 +118,7 @@ namespace F4B1.Core
             plantResource.storedAmount += diff;
             plantResource.UpdateUI();
 
-            StartCoroutine(Produce());
+            CheckResources();
         }
 
         private void FillWaggon(Waggon waggon)
