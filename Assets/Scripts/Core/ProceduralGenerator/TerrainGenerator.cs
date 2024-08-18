@@ -60,7 +60,7 @@ namespace F4B1.Core.ProceduralGenerator
             for (var y = 0; y < height; y++)
             for (var x = 0; x < width; x++)
             {
-                map[x, y] = terrainMap[x, y] > 0.2f ? (int)BlockType.Ground : (int)BlockType.Water;
+                map[x, y] = terrainMap[x, y] > 0.3f ? (int)BlockType.Ground : (int)BlockType.Water;
             }
 
             return map;

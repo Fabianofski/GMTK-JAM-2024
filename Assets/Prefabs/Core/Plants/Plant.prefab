@@ -1072,7 +1072,7 @@ GameObject:
   - component: {fileID: 8015413352512531855}
   - component: {fileID: 8582628006222250738}
   - component: {fileID: 189179932728659887}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1168,6 +1168,7 @@ MonoBehaviour:
   uiNeededResourceParent: {fileID: 1399971809807430485}
   productionTime: 1
   plantHasEnoughResources: 0
+  plantIsConnected: 0
   produceAmount: 1
   progress: {fileID: 4479117668286194025}
   stored: 20
