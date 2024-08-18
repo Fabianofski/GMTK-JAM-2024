@@ -6,6 +6,7 @@
 //  **/
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
@@ -27,13 +28,17 @@ namespace F4B1.Core
         [SerializeField] private IntVariable railCount;
         [SerializeField] private StringVariable selectedItem;
         
-        [Header("Tilemap")] [SerializeField] private Tilemap tilemap;
+        [Header("Tilemap")] 
+        [SerializeField] private Tilemap tilemap;
         [SerializeField] private Grid grid;
         [SerializeField] private RailTile[] railTiles;
         [SerializeField] private TileBase defaultTile;
+        [SerializeField] private GameObject railRemover;
+        private readonly Dictionary<Vector3Int, GameObject> railRemovers = new();
 
 
-        [Header("Mouse")] private Vector2 mouseWorldPos;
+        [Header("Mouse")] 
+        private Vector2 mouseWorldPos;
         private bool leftClicking;
 
         private void Update()
@@ -41,7 +46,7 @@ namespace F4B1.Core
             if (!leftClicking || IsPointerOverUI()) return;
             
             if (selectedItem.Value == "rails") PlaceTile();
-            else if (selectedItem.Value == "bulldozer") RemoveTile();
+            else if (selectedItem.Value == "bulldozer") MarkTileAsRemoved();
         }
 
         private void PlaceTile()
@@ -97,13 +102,21 @@ namespace F4B1.Core
             return tile;
         }
 
-        private void RemoveTile()
+        private void MarkTileAsRemoved()
         {
             var cell = grid.WorldToCell(mouseWorldPos);
-            if (!tilemap.HasTile(cell)) return;
+            if (!tilemap.HasTile(cell) || railRemovers.ContainsKey(cell)) return;
+            var remover = Instantiate(railRemover, cell, Quaternion.identity, transform);
+            railRemovers.Add(cell, remover);
+        }
+
+        public void RemoveTile(Vector2 position)
+        {
+            var cell = Vector3Int.RoundToInt(position);
             tilemap.SetTile(cell, null);
             UpdateSurroundingTiles(cell);
             railCount.Add(1);
+            railRemovers.Remove(cell);
         }
 
         public void OnMouseMove(InputValue value)

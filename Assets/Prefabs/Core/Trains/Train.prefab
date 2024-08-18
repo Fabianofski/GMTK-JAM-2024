@@ -124,7 +124,7 @@ MonoBehaviour:
   reachedDeadEnd: 0
   targetPos: {x: -2, y: 0}
   speed: 3
-  waggonCount: 3
+  waggonCount: 8
   waggonPrefab: {fileID: 8197080431328340148, guid: fe37ec7a671cb8f4abd44abcdb055ceb, type: 3}
 --- !u!1 &1414121366010540579
 GameObject:
