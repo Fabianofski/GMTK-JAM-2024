@@ -27,8 +27,10 @@ namespace F4B1.Core
     {
         [SerializeField] private IntVariable railCount;
         [SerializeField] private StringVariable selectedItem;
+        [SerializeField] private VoidEvent railNetworkUpdated;
 
-        [Header("Tilemap")] [SerializeField] private Tilemap tilemap;
+        [Header("Tilemap")] 
+        [SerializeField] private Tilemap tilemap;
         [SerializeField] private Grid grid;
         [SerializeField] private RailTile[] railTiles;
         [SerializeField] private TileBase defaultTile;
@@ -36,7 +38,8 @@ namespace F4B1.Core
         private readonly Dictionary<Vector3Int, GameObject> railRemovers = new();
         [SerializeField] private LayerMask plantMask;
 
-        [Header("Mouse")] private Vector2 mouseWorldPos;
+        [Header("Mouse")] 
+        private Vector2 mouseWorldPos;
         private bool leftClicking;
 
         private void Update()
@@ -58,6 +61,7 @@ namespace F4B1.Core
             UpdateSurroundingTiles(cell);
             UpdateSurroundingPlants((Vector3)cell, true);
 
+            railNetworkUpdated.Raise();
             railCount.Subtract(1);
         }
 
@@ -122,6 +126,7 @@ namespace F4B1.Core
             tilemap.SetTile(cell, null);
             UpdateSurroundingTiles(cell);
             railCount.Add(1);
+            railNetworkUpdated.Raise();
             railRemovers.Remove(cell);
             UpdateSurroundingPlants(position, false);
         }

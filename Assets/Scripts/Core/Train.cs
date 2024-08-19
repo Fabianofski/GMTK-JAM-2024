@@ -15,16 +15,23 @@ namespace F4B1.Core
     {
         [Header("Movement")]
         private TrainNavigator navigator;
-        private LineRenderer lineRenderer;
+        [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private Vector2 direction;
         [SerializeField] private bool reachedDeadEnd;
         [SerializeField] private Vector2 targetPos;
         [SerializeField] private float speed = 10;
         [SerializeField] private BoolVariable gamePaused;
+        
+        [Header("Intersections")]
+        [SerializeField] private Vector2[] intersections;
+        [SerializeField] private GameObject intersectionChanger;
+        [SerializeField] private Transform intersectionParent;
+        private Dictionary<Vector2, Vector2[]> intersectionDirections;
 
         [Header("Waggons")] 
         [SerializeField] private int waggonCount;
         [SerializeField] private GameObject waggonPrefab;
+        [SerializeField] private Transform waggonParent;
         private readonly List<Vector2> lastDirections = new List<Vector2>();
         private readonly List<Waggon> waggons = new List<Waggon>();
         
@@ -36,7 +43,6 @@ namespace F4B1.Core
         private void Start()
         {
             navigator = FindObjectOfType<TrainNavigator>();
-            lineRenderer = GetComponentInChildren<LineRenderer>();
             UpdateTrainLinePath();
             animator = GetComponent<Animator>();
             UpdateAnimator();
@@ -51,19 +57,22 @@ namespace F4B1.Core
 
         private void AddWaggon(Vector3 position)
         {
-            var waggon = Instantiate(waggonPrefab, position, Quaternion.identity, transform.parent);
+            var waggon = Instantiate(waggonPrefab, position, Quaternion.identity, waggonParent);
             lastDirections.Add(direction);
             waggons.Add(waggon.GetComponent<Waggon>());
         }
 
-        private void UpdateTrainLinePath()
+        public void UpdateTrainLinePath()
         {
             var points = new List<Vector3>() { targetPos };
             var visitedStates = new HashSet<(Vector3 position, Vector3 direction)> { (targetPos, direction) };
+            intersectionDirections = new Dictionary<Vector2, Vector2[]>();
 
             var linePosition = targetPos;
             var lineDirection = direction;
             bool visitedBefore;
+
+            var pathIntersections = new List<Vector2>();
 
             do
             {
@@ -71,6 +80,14 @@ namespace F4B1.Core
                 linePosition += lineDirection;
                 points.Add(linePosition);
 
+                var possibleDirections =
+                    navigator.GetPossibleDirectionsList(Vector3Int.RoundToInt(linePosition), lineDirection);
+                if (possibleDirections.Length >= 3 && !pathIntersections.Contains(linePosition))
+                {
+                    pathIntersections.Add(linePosition);
+                    intersectionDirections.Add(linePosition, possibleDirections);
+                }
+                
                 var currentState = (linePosition, lineDirection);
                 visitedBefore = visitedStates.Contains(currentState);
                 visitedStates.Add(currentState);
@@ -78,6 +95,21 @@ namespace F4B1.Core
 
             lineRenderer.positionCount = points.Count;
             lineRenderer.SetPositions(points.ToArray());
+            intersections = pathIntersections.ToArray();
+            SpawnIntersectionChangers();
+        }
+
+        private void SpawnIntersectionChangers()
+        {
+            for (var i = 0; i < intersectionParent.childCount; i++)
+               Destroy(intersectionParent.GetChild(i).gameObject); 
+            
+            foreach (var intersection in intersections)
+            {
+                var go = Instantiate(intersectionChanger, intersection, Quaternion.identity, intersectionParent);
+                var possibleDirections = intersectionDirections[intersection];
+                go.GetComponent<IntersectionChanger>().SetPossibleDirections(possibleDirections);
+            } 
         }
 
         private void Update()
@@ -122,7 +154,6 @@ namespace F4B1.Core
             direction = newDirection;
             targetPos += direction;
             UpdateAnimator();
-            UpdateTrainLinePath();
         }
 
         private void UpdateAnimator()

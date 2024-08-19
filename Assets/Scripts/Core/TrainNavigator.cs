@@ -6,6 +6,7 @@
 //  **/
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -17,16 +18,27 @@ namespace F4B1.Core
         [SerializeField] private Grid grid;
 
 
-        public Vector2 GetNewDirection(Vector3Int currentPosition, Vector2 direction)
+        private Dictionary<Vector2, bool> GetPossibleDirections(Vector3Int currentPosition, Vector2 direction)
         {
-            var possibleDirections = new Dictionary<Vector2, bool>
+            var  possibleDirections = new Dictionary<Vector2, bool>
             {
                 [Vector2.up] = tilemap.HasTile(currentPosition + Vector3Int.up),
-                [Vector2.down] = tilemap.HasTile(currentPosition + Vector3Int.down),
                 [Vector2.right] = tilemap.HasTile(currentPosition + Vector3Int.right),
+                [Vector2.down] = tilemap.HasTile(currentPosition + Vector3Int.down),
                 [Vector2.left] = tilemap.HasTile(currentPosition + Vector3Int.left)
             };
+            return possibleDirections;
+        }
 
+        public Vector2[] GetPossibleDirectionsList(Vector3Int currentPosition, Vector2 direction)
+        {
+            var possibleDirections = GetPossibleDirections(currentPosition, direction);
+            return possibleDirections.Where(x => x.Value).Select(x => x.Key).ToArray();
+        }
+        
+        public Vector2 GetNewDirection(Vector3Int currentPosition, Vector2 direction)
+        {
+            var possibleDirections = GetPossibleDirections(currentPosition, direction);
             var leftTangent = new Vector2(-direction.y, direction.x);
             var rightTangent = new Vector2(direction.y, -direction.x);
 

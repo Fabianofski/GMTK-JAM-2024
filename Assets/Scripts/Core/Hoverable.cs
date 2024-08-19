@@ -18,7 +18,10 @@ namespace F4B1.Core
         private SpriteRenderer spriteRenderer;
         [SerializeField] private Material outlineMat;
         [SerializeField] private UnityEvent<bool> clickEvent;
-        [SerializeField] private bool toggle;
+        [SerializeField] private UnityEvent<bool> hoverEnterEvent;
+        [SerializeField] private UnityEvent<bool> hoverExitEvent;
+        [SerializeField] private bool toggleable;
+        private bool toggle;
         private Material defaultMat;
 
         private void Start()
@@ -30,11 +33,13 @@ namespace F4B1.Core
         public void OnPointerEnter(PointerEventData eventData)
         {
             spriteRenderer.material = outlineMat;
+            hoverEnterEvent.Invoke(toggle);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            spriteRenderer.material = defaultMat;
+            if (!toggle || !toggleable) spriteRenderer.material = defaultMat;
+            hoverExitEvent.Invoke(toggle);
         }
 
         public void OnPointerClick(PointerEventData eventData)
