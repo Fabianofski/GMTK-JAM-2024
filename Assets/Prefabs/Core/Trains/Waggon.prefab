@@ -551,7 +551,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 863711793
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1806733674, guid: dd429aa85d424234e80e4a3d5c503b92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -599,6 +599,7 @@ GameObject:
   - component: {fileID: 6473118094633990539}
   - component: {fileID: 3496733416955804787}
   - component: {fileID: 3202833527961010903}
+  - component: {fileID: 2736667497829872650}
   m_Layer: 0
   m_Name: Waggon
   m_TagString: Untagged
@@ -787,7 +788,18 @@ MonoBehaviour:
   hoverExitEvent:
     m_PersistentCalls:
       m_Calls: []
-  toggle: 0
+  toggleable: 0
+--- !u!210 &2736667497829872650
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8197080431328340148}
+  m_Enabled: 1
+  m_SortingLayerID: 863711793
+  m_SortingLayer: 1
+  m_SortingOrder: 0
 --- !u!1 &8197080431378399504
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,6 @@ using System.Linq;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
 namespace F4B1.Core
@@ -40,7 +39,7 @@ namespace F4B1.Core
         [SerializeField] private LayerMask plantMask;
 
         [Header("Mouse")] 
-        private Vector2 mouseWorldPos;
+        [SerializeField] private Vector2Variable mousePos;
         private bool leftClicking;
 
         private void Update()
@@ -55,7 +54,7 @@ namespace F4B1.Core
         {
             if (railCount.Value <= 0) return;
 
-            var cell = grid.WorldToCell(mouseWorldPos);
+            var cell = grid.WorldToCell(mousePos.Value);
             if (tilemap.HasTile(cell)) return;
             var tile = GetCorrectTile(cell);
             tilemap.SetTile(cell, tile);
@@ -130,7 +129,7 @@ namespace F4B1.Core
 
         private void MarkTileAsRemoved()
         {
-            var cell = grid.WorldToCell(mouseWorldPos);
+            var cell = grid.WorldToCell(mousePos.Value);
             if (!tilemap.HasTile(cell) || railRemovers.ContainsKey(cell)) return;
             var remover = Instantiate(railRemover, cell, Quaternion.identity, transform);
             railRemovers.Add(cell, remover);
@@ -148,16 +147,6 @@ namespace F4B1.Core
             UpdateSurroundingPlants(position, false);
         }
 
-        public void OnMouseMove(InputValue value)
-        {
-            var mousePos = value.Get<Vector2>();
-            mouseWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
-        }
-
-        public void OnClick(InputValue value)
-        {
-            leftClicking = value.isPressed;
-        }
 
         private bool IsPointerOverUI()
         {
@@ -169,6 +158,11 @@ namespace F4B1.Core
             var hit = Physics2D.Raycast(pos, Vector2.one, 0, plantMask.value);
             if (!hit) return null;
             return hit.transform.GetComponent<ProductionPlant>();
+        }
+
+        public void LeftClick(bool pressed)
+        {
+            leftClicking = pressed;
         }
     }
 }
