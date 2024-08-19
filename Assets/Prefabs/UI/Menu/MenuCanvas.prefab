@@ -181,6 +181,7 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 6017380304840423831, guid: 5efc91c01d6311e47aae55dee98ead93, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!1 &1884571047283698762
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,10 +248,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: TEMPLATE
+  m_text: Rail & Scale
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 843d0e0279e535a479d3e95523d18117, type: 2}
+  m_sharedMaterial: {fileID: -5492170285307650066, guid: 843d0e0279e535a479d3e95523d18117, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -6,6 +6,7 @@
 //  **/
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
@@ -26,34 +27,43 @@ namespace F4B1.Core
     {
         [SerializeField] private IntVariable railCount;
         [SerializeField] private StringVariable selectedItem;
-        
-        [Header("Tilemap")] [SerializeField] private Tilemap tilemap;
+        [SerializeField] private VoidEvent railNetworkUpdated;
+        [SerializeField] private Vector2ValueList intersections;
+
+        [Header("Tilemap")] 
+        [SerializeField] private Tilemap tilemap;
         [SerializeField] private Grid grid;
         [SerializeField] private RailTile[] railTiles;
         [SerializeField] private TileBase defaultTile;
+        [SerializeField] private GameObject railRemover;
+        private readonly Dictionary<Vector3Int, GameObject> railRemovers = new();
+        [SerializeField] private LayerMask plantMask;
 
-
-        [Header("Mouse")] private Vector2 mouseWorldPos;
+        [Header("Mouse")] 
+        private Vector2 mouseWorldPos;
         private bool leftClicking;
 
         private void Update()
         {
             if (!leftClicking || IsPointerOverUI()) return;
-            
+
             if (selectedItem.Value == "rails") PlaceTile();
-            else if (selectedItem.Value == "bulldozer") RemoveTile();
+            else if (selectedItem.Value == "bulldozer") MarkTileAsRemoved();
         }
 
         private void PlaceTile()
         {
             if (railCount.Value <= 0) return;
-            
+
             var cell = grid.WorldToCell(mouseWorldPos);
             if (tilemap.HasTile(cell)) return;
             var tile = GetCorrectTile(cell);
             tilemap.SetTile(cell, tile);
+            CheckForIntersections(cell);
             UpdateSurroundingTiles(cell);
-            
+            UpdateSurroundingPlants((Vector3)cell, true);
+
+            railNetworkUpdated.Raise();
             railCount.Subtract(1);
         }
 
@@ -68,8 +78,29 @@ namespace F4B1.Core
                     if (!tilemap.HasTile(surroundedCell)) continue;
                     var tile = GetCorrectTile(surroundedCell);
                     tilemap.SetTile(surroundedCell, tile);
+                    CheckForIntersections(surroundedCell);
                 }
             }
+        }
+
+        private void UpdateSurroundingPlants(Vector2 cell, bool connect)
+        {
+            var plant = GetSurroundingPlant((Vector3)cell);
+            if (plant)
+                plant.SetConnection((Vector3)cell, connect);
+        }
+
+        private void CheckForIntersections(Vector3Int pos)
+        {
+            var possibleDirections = TrainNavigator.GetPossibleDirectionsList(tilemap, pos);
+            var cell = new Vector2(pos.x, pos.y);
+            if (possibleDirections.Length >= 3)
+            {
+                if (!intersections.Contains(cell)) 
+                    intersections.Add(cell);
+            }
+            else if (intersections.Contains(cell))
+                intersections.Remove(cell);
         }
 
         private TileBase GetCorrectTile(Vector3Int cell)
@@ -97,13 +128,24 @@ namespace F4B1.Core
             return tile;
         }
 
-        private void RemoveTile()
+        private void MarkTileAsRemoved()
         {
             var cell = grid.WorldToCell(mouseWorldPos);
-            if (!tilemap.HasTile(cell)) return;
+            if (!tilemap.HasTile(cell) || railRemovers.ContainsKey(cell)) return;
+            var remover = Instantiate(railRemover, cell, Quaternion.identity, transform);
+            railRemovers.Add(cell, remover);
+        }
+
+        public void RemoveTile(Vector2 position)
+        {
+            var cell = Vector3Int.RoundToInt(position);
             tilemap.SetTile(cell, null);
+            if (intersections.Contains(position)) intersections.Remove(position);
             UpdateSurroundingTiles(cell);
             railCount.Add(1);
+            railNetworkUpdated.Raise();
+            railRemovers.Remove(cell);
+            UpdateSurroundingPlants(position, false);
         }
 
         public void OnMouseMove(InputValue value)
@@ -120,6 +162,13 @@ namespace F4B1.Core
         private bool IsPointerOverUI()
         {
             return EventSystem.current.IsPointerOverGameObject();
+        }
+
+        private ProductionPlant GetSurroundingPlant(Vector2 pos)
+        {
+            var hit = Physics2D.Raycast(pos, Vector2.one, 0, plantMask.value);
+            if (!hit) return null;
+            return hit.transform.GetComponent<ProductionPlant>();
         }
     }
 }

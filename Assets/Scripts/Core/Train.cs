@@ -6,35 +6,43 @@
 //  **/
 
 using System.Collections.Generic;
+using System.Linq;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
 namespace F4B1.Core
 {
     public class Train : MonoBehaviour
     {
-        [Header("Movement")]
-        private TrainNavigator navigator;
-        private LineRenderer lineRenderer;
+        [Header("Movement")] private TrainNavigator navigator;
+        [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private Vector2 direction;
         [SerializeField] private bool reachedDeadEnd;
         [SerializeField] private Vector2 targetPos;
         [SerializeField] private float speed = 10;
+        [SerializeField] private BoolVariable gamePaused;
+        private List<Vector3> trainPath;
 
-        [Header("Waggons")] 
-        [SerializeField] private int waggonCount;
+        [Header("Intersections")] [SerializeField]
+        private Vector2ValueList intersections;
+
+        [SerializeField] private GameObject intersectionChanger;
+        [SerializeField] private Transform intersectionParent;
+        private Dictionary<Vector2, Vector2> savedDirections = new Dictionary<Vector2, Vector2>();
+
+        [Header("Waggons")] [SerializeField] private int waggonCount;
         [SerializeField] private GameObject waggonPrefab;
+        [SerializeField] private Transform waggonParent;
         private readonly List<Vector2> lastDirections = new List<Vector2>();
         private readonly List<Waggon> waggons = new List<Waggon>();
-        
-        [Header("Animations")]
-        private Animator animator;
+
+        [Header("Animations")] private Animator animator;
         private static readonly int Y = Animator.StringToHash("y");
         private static readonly int X = Animator.StringToHash("x");
 
         private void Start()
         {
             navigator = FindObjectOfType<TrainNavigator>();
-            lineRenderer = GetComponentInChildren<LineRenderer>();
             UpdateTrainLinePath();
             animator = GetComponent<Animator>();
             UpdateAnimator();
@@ -49,12 +57,12 @@ namespace F4B1.Core
 
         private void AddWaggon(Vector3 position)
         {
-            var waggon = Instantiate(waggonPrefab, position, Quaternion.identity);
+            var waggon = Instantiate(waggonPrefab, position, Quaternion.identity, waggonParent);
             lastDirections.Add(direction);
             waggons.Add(waggon.GetComponent<Waggon>());
         }
 
-        private void UpdateTrainLinePath()
+        public void UpdateTrainLinePath()
         {
             var points = new List<Vector3>() { targetPos };
             var visitedStates = new HashSet<(Vector3 position, Vector3 direction)> { (targetPos, direction) };
@@ -65,7 +73,11 @@ namespace F4B1.Core
 
             do
             {
-                lineDirection = navigator.GetNewDirection(Vector3Int.RoundToInt(linePosition), lineDirection);
+                if (savedDirections.TryGetValue(linePosition, out var savedDirection) &&
+                    !AreVectorsOpposite(savedDirection, lineDirection))
+                    lineDirection = savedDirection;
+                else
+                    lineDirection = navigator.GetNewDirection(Vector3Int.RoundToInt(linePosition), lineDirection);
                 linePosition += lineDirection;
                 points.Add(linePosition);
 
@@ -76,22 +88,41 @@ namespace F4B1.Core
 
             lineRenderer.positionCount = points.Count;
             lineRenderer.SetPositions(points.ToArray());
+            trainPath = points;
+        }
+
+        public void SpawnIntersectionChangers()
+        {
+            for (var i = 0; i < intersectionParent.childCount; i++)
+                Destroy(intersectionParent.GetChild(i).gameObject);
+
+            foreach (var intersection in intersections)
+            {
+                // if (!trainPath.Contains(intersection)) return;
+                var go = Instantiate(intersectionChanger, intersection, Quaternion.identity, intersectionParent);
+                var changer = go.GetComponent<IntersectionChanger>();
+                changer.train = this;
+                if (savedDirections.TryGetValue(intersection, out var savedDirection))
+                    changer.SetDirection(savedDirection);
+            }
         }
 
         private void Update()
         {
+            if (gamePaused.Value) return;
+
             if (!ReachedTargetPos() && !reachedDeadEnd) Move();
             else CalculateNewPosition();
         }
 
         private void Move()
         {
-            transform.Translate(direction * (speed * Time.deltaTime ));
+            transform.Translate(direction * (speed * Time.deltaTime));
             for (var i = 0; i < waggonCount; i++)
             {
                 var waggon = waggons[i];
                 var waggonDir = lastDirections[i];
-                waggon.Move(speed, waggonDir); 
+                waggon.Move(speed, waggonDir);
             }
         }
 
@@ -99,18 +130,25 @@ namespace F4B1.Core
         {
             var pos = Vector3Int.RoundToInt(transform.position);
             var newDirection = navigator.GetNewDirection(pos, direction);
+            if (savedDirections.TryGetValue((Vector3)pos, out var savedDirection))
+                if (!AreVectorsOpposite(savedDirection, direction))
+                    newDirection = savedDirection;
 
             if (direction != newDirection)
                 transform.position = Vector3Int.RoundToInt(transform.position);
 
             reachedDeadEnd = newDirection == Vector2.zero;
 
-            if (reachedDeadEnd) return;
-            
+            if (reachedDeadEnd)
+            {
+                targetPos = Vector2Int.RoundToInt(transform.position);
+                return;
+            }
+
             lastDirections.Insert(0, direction);
             if (lastDirections.Count > waggonCount)
                 lastDirections.RemoveAt(lastDirections.Count - 1);
-            
+
             direction = newDirection;
             targetPos += direction;
             UpdateAnimator();
@@ -135,6 +173,16 @@ namespace F4B1.Core
         {
             Gizmos.color = Color.red;
             Gizmos.DrawCube(targetPos, new Vector2(0.2f, 0.2f));
+        }
+
+        public void SetIntersectionDirection(Vector2 transformPosition, Vector2 selectedDirection)
+        {
+            savedDirections[transformPosition] = selectedDirection;
+        }
+
+        bool AreVectorsOpposite(Vector2 a, Vector2 b)
+        {
+            return Vector2.Dot(a.normalized, b.normalized) == -1;
         }
     }
 }

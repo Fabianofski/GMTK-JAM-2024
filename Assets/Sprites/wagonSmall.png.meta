@@ -120,12 +120,12 @@ TextureImporter:
       name: wagonSmall_0
       rect:
         serializedVersion: 2
-        x: 30
-        y: 98
-        width: 68
-        height: 54
+        x: 28
+        y: 96
+        width: 72
+        height: 58
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+      pivot: {x: 0.5, y: 0.28}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,12 +141,12 @@ TextureImporter:
       name: wagonSmall_1
       rect:
         serializedVersion: 2
-        x: 158
-        y: 99
-        width: 68
-        height: 53
+        x: 156
+        y: 97
+        width: 72
+        height: 57
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+      pivot: {x: 0.5, y: 0.28}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -162,12 +162,12 @@ TextureImporter:
       name: wagonSmall_2
       rect:
         serializedVersion: 2
-        x: 286
-        y: 98
-        width: 68
-        height: 54
+        x: 284
+        y: 96
+        width: 72
+        height: 58
       alignment: 9
-      pivot: {x: 0.5, y: 0.25}
+      pivot: {x: 0.5, y: 0.28}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -183,12 +183,12 @@ TextureImporter:
       name: wagonSmall_3
       rect:
         serializedVersion: 2
-        x: 36
-        y: 3
-        width: 56
-        height: 55
+        x: 34
+        y: 1
+        width: 60
+        height: 59
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -204,12 +204,12 @@ TextureImporter:
       name: wagonSmall_4
       rect:
         serializedVersion: 2
-        x: 164
-        y: 4
-        width: 56
-        height: 54
+        x: 162
+        y: 2
+        width: 60
+        height: 58
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -225,12 +225,12 @@ TextureImporter:
       name: wagonSmall_5
       rect:
         serializedVersion: 2
-        x: 292
-        y: 3
-        width: 56
-        height: 55
+        x: 290
+        y: 1
+        width: 60
+        height: 59
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
