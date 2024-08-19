@@ -24,7 +24,7 @@ namespace F4B1.Core
         private bool toggle;
         private Material defaultMat;
 
-        private void Start()
+        private void OnEnable()
         {
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             defaultMat = spriteRenderer.material;
@@ -40,6 +40,12 @@ namespace F4B1.Core
         {
             if (!toggle || !toggleable) spriteRenderer.material = defaultMat;
             hoverExitEvent.Invoke(toggle);
+        }
+
+        public void DeactivateOutline()
+        {
+            spriteRenderer.material = defaultMat;
+            toggle = false;
         }
 
         public void OnPointerClick(PointerEventData eventData)

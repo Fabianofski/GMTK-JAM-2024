@@ -7,6 +7,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using F4B1.Audio;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
@@ -35,11 +36,19 @@ namespace F4B1.Core
         [SerializeField] private Transform waggonParent;
         private readonly List<Vector2> lastDirections = new List<Vector2>();
         private readonly List<Waggon> waggons = new List<Waggon>();
+        [SerializeField] private StringVariable selectedUpgrade;
+        [SerializeField] private FactoryVariable selectedFactory;
 
         [Header("Animations")] private Animator animator;
         private static readonly int Y = Animator.StringToHash("y");
         private static readonly int X = Animator.StringToHash("x");
 
+        [Header("Sounds")] 
+        [SerializeField] private SoundEvent playSound;
+        [SerializeField] private Sound waggonAttaching;
+        [SerializeField] private AudioSource trainSounds;
+        [SerializeField] private AudioSource whistleSound;
+        
         private void Start()
         {
             navigator = FindObjectOfType<TrainNavigator>();
@@ -55,10 +64,27 @@ namespace F4B1.Core
                 AddWaggon(transform.position - (Vector3)(direction * i));
         }
 
+        public void CheckForWaggonUpgrade()
+        {
+            if (selectedUpgrade.Value != "waggon") return;
+
+            var lastWaggon = waggons[^1];
+            var waggonPos = lastWaggon ? lastWaggon.transform.position : transform.position;
+            var dir = (Vector3) lastDirections[^1];
+            playSound.Raise(waggonAttaching);
+            AddWaggon(waggonPos - dir);
+            waggonCount++;
+            waggons[waggonCount - 1].SetOldDirection(dir);
+            lastDirections.Add(dir);
+            
+            selectedFactory.Value.UpgradeUsed();
+            selectedUpgrade.SetValue("none");
+        }
+        
         private void AddWaggon(Vector3 position)
         {
             var waggon = Instantiate(waggonPrefab, position, Quaternion.identity, waggonParent);
-            lastDirections.Add(direction);
+            if (lastDirections.Count < waggonCount) lastDirections.Add(direction);
             waggons.Add(waggon.GetComponent<Waggon>());
         }
 
@@ -142,7 +168,13 @@ namespace F4B1.Core
             if (reachedDeadEnd)
             {
                 targetPos = Vector2Int.RoundToInt(transform.position);
+                trainSounds.Stop();
                 return;
+            }
+            if (!trainSounds.isPlaying)
+            {
+                trainSounds.Play();
+                whistleSound.Play();
             }
 
             lastDirections.Insert(0, direction);

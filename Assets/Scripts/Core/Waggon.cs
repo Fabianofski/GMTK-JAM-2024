@@ -32,7 +32,7 @@ namespace F4B1.Core
         public string GetResourceId() => storedResourceId;
         public int GetStoredAmount() => stored;
 
-        private void Start()
+        private void OnEnable()
         {
             animator = GetComponent<Animator>();
             UpdateText();
@@ -72,6 +72,12 @@ namespace F4B1.Core
             oldDirection = direction;
         }
 
+        public void SetOldDirection(Vector2 direction)
+        {
+            oldDirection = direction;
+            UpdateAnimator(direction);
+        }
+        
         private void ApplyOffset(Vector2 direction)
         {
             var pos = transform.position;

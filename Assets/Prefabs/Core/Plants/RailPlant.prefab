@@ -7,10 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1192013509256206010, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
-      propertyPath: m_text
-      value: Rails
-      objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531850, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: m_Name
       value: RailPlant
@@ -21,11 +17,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531853, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.03
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531853, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.02
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531853, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: m_LocalPosition.z
