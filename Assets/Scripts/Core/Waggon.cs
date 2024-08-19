@@ -32,7 +32,7 @@ namespace F4B1.Core
         public string GetResourceId() => storedResourceId;
         public int GetStoredAmount() => stored;
 
-        private void Start()
+        private void OnEnable()
         {
             animator = GetComponent<Animator>();
             UpdateText();

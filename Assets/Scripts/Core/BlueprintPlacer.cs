@@ -27,7 +27,7 @@ namespace F4B1.Core
             if (!blueprint) return;
 
             var roundedPos = Vector3Int.RoundToInt(mousePos.Value);
-            var tilePos = new Vector3(roundedPos.x + 0.5f, roundedPos.y + 0.5f, 0);
+            var tilePos = new Vector3(roundedPos.x + 0.5f, roundedPos.y - 0.5f, 0);
             Instantiate(blueprint, tilePos, Quaternion.identity);
         }
 

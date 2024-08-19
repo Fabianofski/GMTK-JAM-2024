@@ -66,6 +66,8 @@ namespace F4B1.Core
         [SerializeField] private TextMeshProUGUI storedText;
         [SerializeField] private Color gold;
 
+        public int GetStoredAmount() => stored;
+        
         private void Start()
         {
             UpdateText();
@@ -189,6 +191,12 @@ namespace F4B1.Core
         private void FillWaggon(Waggon waggon)
         {
             stored -= waggon.Fill(resourceId, stored);
+            UpdateText();
+        }
+
+        public void ClearStorage()
+        {
+            stored = 0;
             UpdateText();
         }
 
