@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using F4B1.Audio;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -29,17 +30,26 @@ namespace F4B1.Core
         [SerializeField] private VoidEvent railNetworkUpdated;
         [SerializeField] private Vector2ValueList intersections;
 
-        [Header("Tilemap")] 
-        [SerializeField] private Tilemap tilemap;
+        [Header("Tilemap")] [SerializeField] private Tilemap tilemap;
         [SerializeField] private Grid grid;
         [SerializeField] private RailTile[] railTiles;
         [SerializeField] private TileBase defaultTile;
-        [SerializeField] private GameObject railRemover;
+        [SerializeField] private TileBase ghostTile;
+
+        [Header("Removing")] [SerializeField] private GameObject railRemover;
         private readonly Dictionary<Vector3Int, GameObject> railRemovers = new();
         [SerializeField] private LayerMask plantMask;
 
-        [Header("Mouse")] 
-        [SerializeField] private Vector2Variable mousePos;
+        [Header("Animations")] [SerializeField]
+        private LeanTweenType tweenType;
+
+        [SerializeField] private float animTime;
+
+        [Header("Sounds")] 
+        [SerializeField] private SoundEvent playSound;
+        [SerializeField] private Sound railPlacing;
+
+        [Header("Mouse")] [SerializeField] private Vector2Variable mousePos;
         private bool leftClicking;
 
         private void Update()
@@ -56,14 +66,32 @@ namespace F4B1.Core
 
             var cell = grid.WorldToCell(mousePos.Value);
             if (tilemap.HasTile(cell)) return;
-            var tile = GetCorrectTile(cell);
-            tilemap.SetTile(cell, tile);
+
+            tilemap.SetTile(cell, ghostTile);
             CheckForIntersections(cell);
             UpdateSurroundingTiles(cell);
             UpdateSurroundingPlants((Vector3)cell, true);
 
             railNetworkUpdated.Raise();
             railCount.Subtract(1);
+
+            AnimateRail(cell);
+        }
+
+        private void AnimateRail(Vector3Int cell)
+        {
+            playSound.Raise(railPlacing);
+            
+            var tile = GetCorrectTile(cell);
+            var rail = new GameObject("Rail");
+            rail.transform.position = new Vector3(cell.x, cell.y + 0.2f, 0);
+            rail.AddComponent<SpriteRenderer>().sprite = (tile as Tile)?.sprite;
+            LeanTween.move(rail, cell, animTime).setEase(tweenType).setOnComplete(() =>
+            {
+                Destroy(rail);
+                tile = GetCorrectTile(cell);
+                tilemap.SetTile(cell, tile);
+            });
         }
 
         private void UpdateSurroundingTiles(Vector3Int cell)
@@ -95,7 +123,7 @@ namespace F4B1.Core
             var cell = new Vector2(pos.x, pos.y);
             if (possibleDirections.Length >= 3)
             {
-                if (!intersections.Contains(cell)) 
+                if (!intersections.Contains(cell))
                     intersections.Add(cell);
             }
             else if (intersections.Contains(cell))

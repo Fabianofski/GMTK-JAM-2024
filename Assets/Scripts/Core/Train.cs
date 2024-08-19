@@ -7,6 +7,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using F4B1.Audio;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
@@ -42,6 +43,12 @@ namespace F4B1.Core
         private static readonly int Y = Animator.StringToHash("y");
         private static readonly int X = Animator.StringToHash("x");
 
+        [Header("Sounds")] 
+        [SerializeField] private SoundEvent playSound;
+        [SerializeField] private Sound waggonAttaching;
+        [SerializeField] private AudioSource trainSounds;
+        [SerializeField] private AudioSource whistleSound;
+        
         private void Start()
         {
             navigator = FindObjectOfType<TrainNavigator>();
@@ -64,6 +71,7 @@ namespace F4B1.Core
             var lastWaggon = waggons[^1];
             var waggonPos = lastWaggon ? lastWaggon.transform.position : transform.position;
             var dir = (Vector3) lastDirections[^1];
+            playSound.Raise(waggonAttaching);
             AddWaggon(waggonPos - dir);
             waggonCount++;
             waggons[waggonCount - 1].SetOldDirection(dir);
@@ -160,7 +168,13 @@ namespace F4B1.Core
             if (reachedDeadEnd)
             {
                 targetPos = Vector2Int.RoundToInt(transform.position);
+                trainSounds.Stop();
                 return;
+            }
+            if (!trainSounds.isPlaying)
+            {
+                trainSounds.Play();
+                whistleSound.Play();
             }
 
             lastDirections.Insert(0, direction);
