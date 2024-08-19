@@ -95,6 +95,7 @@ MonoBehaviour:
   railCount: {fileID: 11400000, guid: b1d17d179d859cf4b83a1cbe07ddc9ac, type: 2}
   selectedItem: {fileID: 11400000, guid: 27f601bcec3d043448fe403245a3a2fe, type: 2}
   railNetworkUpdated: {fileID: 11400000, guid: 097f679a277be3a44a64c7902ce94bfb, type: 2}
+  intersections: {fileID: 11400000, guid: f044ae3c8d9894c4a8bae379382d0d58, type: 2}
   tilemap: {fileID: 9209579240933501801}
   grid: {fileID: 9209579240275834165}
   railTiles:
@@ -285,7 +286,7 @@ GameObject:
   - component: {fileID: 9209579240933501800}
   m_Layer: 0
   m_Name: RailTilemap
-  m_TagString: Untagged
+  m_TagString: RailTilemap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

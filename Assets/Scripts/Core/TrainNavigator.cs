@@ -18,7 +18,7 @@ namespace F4B1.Core
         [SerializeField] private Grid grid;
 
 
-        private Dictionary<Vector2, bool> GetPossibleDirections(Vector3Int currentPosition, Vector2 direction)
+        private static Dictionary<Vector2, bool> GetPossibleDirections(Tilemap tilemap, Vector3Int currentPosition)
         {
             var  possibleDirections = new Dictionary<Vector2, bool>
             {
@@ -30,15 +30,15 @@ namespace F4B1.Core
             return possibleDirections;
         }
 
-        public Vector2[] GetPossibleDirectionsList(Vector3Int currentPosition, Vector2 direction)
+        public static Vector2[] GetPossibleDirectionsList(Tilemap tilemap, Vector3Int currentPosition)
         {
-            var possibleDirections = GetPossibleDirections(currentPosition, direction);
+            var possibleDirections = GetPossibleDirections(tilemap, currentPosition);
             return possibleDirections.Where(x => x.Value).Select(x => x.Key).ToArray();
         }
         
         public Vector2 GetNewDirection(Vector3Int currentPosition, Vector2 direction)
         {
-            var possibleDirections = GetPossibleDirections(currentPosition, direction);
+            var possibleDirections = GetPossibleDirections(tilemap, currentPosition);
             var leftTangent = new Vector2(-direction.y, direction.x);
             var rightTangent = new Vector2(direction.y, -direction.x);
 

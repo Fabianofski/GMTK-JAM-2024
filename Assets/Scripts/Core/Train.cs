@@ -6,6 +6,7 @@
 //  **/
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
@@ -13,30 +14,28 @@ namespace F4B1.Core
 {
     public class Train : MonoBehaviour
     {
-        [Header("Movement")]
-        private TrainNavigator navigator;
+        [Header("Movement")] private TrainNavigator navigator;
         [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private Vector2 direction;
         [SerializeField] private bool reachedDeadEnd;
         [SerializeField] private Vector2 targetPos;
         [SerializeField] private float speed = 10;
         [SerializeField] private BoolVariable gamePaused;
-        
-        [Header("Intersections")]
-        [SerializeField] private Vector2[] intersections;
+
+        [Header("Intersections")] [SerializeField]
+        private Vector2ValueList intersections;
+
         [SerializeField] private GameObject intersectionChanger;
         [SerializeField] private Transform intersectionParent;
-        private Dictionary<Vector2, Vector2[]> intersectionDirections;
+        private Dictionary<Vector2, Vector2> savedDirections = new Dictionary<Vector2, Vector2>();
 
-        [Header("Waggons")] 
-        [SerializeField] private int waggonCount;
+        [Header("Waggons")] [SerializeField] private int waggonCount;
         [SerializeField] private GameObject waggonPrefab;
         [SerializeField] private Transform waggonParent;
         private readonly List<Vector2> lastDirections = new List<Vector2>();
         private readonly List<Waggon> waggons = new List<Waggon>();
-        
-        [Header("Animations")]
-        private Animator animator;
+
+        [Header("Animations")] private Animator animator;
         private static readonly int Y = Animator.StringToHash("y");
         private static readonly int X = Animator.StringToHash("x");
 
@@ -66,28 +65,21 @@ namespace F4B1.Core
         {
             var points = new List<Vector3>() { targetPos };
             var visitedStates = new HashSet<(Vector3 position, Vector3 direction)> { (targetPos, direction) };
-            intersectionDirections = new Dictionary<Vector2, Vector2[]>();
 
             var linePosition = targetPos;
             var lineDirection = direction;
             bool visitedBefore;
 
-            var pathIntersections = new List<Vector2>();
-
             do
             {
-                lineDirection = navigator.GetNewDirection(Vector3Int.RoundToInt(linePosition), lineDirection);
+                if (savedDirections.TryGetValue(linePosition, out var savedDirection) &&
+                    !AreVectorsOpposite(savedDirection, lineDirection))
+                    lineDirection = savedDirection;
+                else
+                    lineDirection = navigator.GetNewDirection(Vector3Int.RoundToInt(linePosition), lineDirection);
                 linePosition += lineDirection;
                 points.Add(linePosition);
 
-                var possibleDirections =
-                    navigator.GetPossibleDirectionsList(Vector3Int.RoundToInt(linePosition), lineDirection);
-                if (possibleDirections.Length >= 3 && !pathIntersections.Contains(linePosition))
-                {
-                    pathIntersections.Add(linePosition);
-                    intersectionDirections.Add(linePosition, possibleDirections);
-                }
-                
                 var currentState = (linePosition, lineDirection);
                 visitedBefore = visitedStates.Contains(currentState);
                 visitedStates.Add(currentState);
@@ -95,39 +87,39 @@ namespace F4B1.Core
 
             lineRenderer.positionCount = points.Count;
             lineRenderer.SetPositions(points.ToArray());
-            intersections = pathIntersections.ToArray();
-            SpawnIntersectionChangers();
         }
 
-        private void SpawnIntersectionChangers()
+        public void SpawnIntersectionChangers()
         {
             for (var i = 0; i < intersectionParent.childCount; i++)
-               Destroy(intersectionParent.GetChild(i).gameObject); 
-            
+                Destroy(intersectionParent.GetChild(i).gameObject);
+
             foreach (var intersection in intersections)
             {
                 var go = Instantiate(intersectionChanger, intersection, Quaternion.identity, intersectionParent);
-                var possibleDirections = intersectionDirections[intersection];
-                go.GetComponent<IntersectionChanger>().SetPossibleDirections(possibleDirections);
-            } 
+                var changer = go.GetComponent<IntersectionChanger>();
+                changer.train = this;
+                if (savedDirections.TryGetValue(intersection, out var savedDirection))
+                    changer.SetDirection(savedDirection);
+            }
         }
 
         private void Update()
         {
             if (gamePaused.Value) return;
-            
+
             if (!ReachedTargetPos() && !reachedDeadEnd) Move();
             else CalculateNewPosition();
         }
 
         private void Move()
         {
-            transform.Translate(direction * (speed * Time.deltaTime ));
+            transform.Translate(direction * (speed * Time.deltaTime));
             for (var i = 0; i < waggonCount; i++)
             {
                 var waggon = waggons[i];
                 var waggonDir = lastDirections[i];
-                waggon.Move(speed, waggonDir); 
+                waggon.Move(speed, waggonDir);
             }
         }
 
@@ -135,6 +127,9 @@ namespace F4B1.Core
         {
             var pos = Vector3Int.RoundToInt(transform.position);
             var newDirection = navigator.GetNewDirection(pos, direction);
+            if (savedDirections.TryGetValue((Vector3)pos, out var savedDirection))
+                if (!AreVectorsOpposite(savedDirection, direction))
+                    newDirection = savedDirection;
 
             if (direction != newDirection)
                 transform.position = Vector3Int.RoundToInt(transform.position);
@@ -146,14 +141,15 @@ namespace F4B1.Core
                 targetPos = Vector2Int.RoundToInt(transform.position);
                 return;
             }
-            
+
             lastDirections.Insert(0, direction);
             if (lastDirections.Count > waggonCount)
                 lastDirections.RemoveAt(lastDirections.Count - 1);
-            
+
             direction = newDirection;
             targetPos += direction;
             UpdateAnimator();
+            UpdateTrainLinePath();
         }
 
         private void UpdateAnimator()
@@ -174,6 +170,16 @@ namespace F4B1.Core
         {
             Gizmos.color = Color.red;
             Gizmos.DrawCube(targetPos, new Vector2(0.2f, 0.2f));
+        }
+
+        public void SetIntersectionDirection(Vector2 transformPosition, Vector2 selectedDirection)
+        {
+            savedDirections[transformPosition] = selectedDirection;
+        }
+
+        bool AreVectorsOpposite(Vector2 a, Vector2 b)
+        {
+            return Vector2.Dot(a.normalized, b.normalized) == -1;
         }
     }
 }

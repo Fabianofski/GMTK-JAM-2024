@@ -49,7 +49,8 @@ GameObject:
   - component: {fileID: 4402338362816524555}
   - component: {fileID: 4402338362816524548}
   - component: {fileID: 4402338362816524550}
-  - component: {fileID: 4402338362816524554}
+  - component: {fileID: 5657880801115278100}
+  - component: {fileID: 6699514391291358422}
   m_Layer: 0
   m_Name: Locomotive
   m_TagString: Untagged
@@ -90,7 +91,7 @@ MonoBehaviour:
   targetPos: {x: 2, y: -1}
   speed: 3
   gamePaused: {fileID: 11400000, guid: 541219b76bd3d2f458f84da7a8a0f645, type: 2}
-  intersections: []
+  intersections: {fileID: 11400000, guid: f044ae3c8d9894c4a8bae379382d0d58, type: 2}
   intersectionChanger: {fileID: 2200070649762077971, guid: 201c4b4d08abda741918c380ad3d9d03, type: 3}
   intersectionParent: {fileID: 4402338363113014692}
   waggonCount: 3
@@ -267,7 +268,45 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.6, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4402338362816524554
+--- !u!114 &5657880801115278100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4402338362816524544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d41cf904d84eb4825bcbaec1aaabf06c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _developerDescription: 
+  _unityEventResponse:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4402338362816524549}
+        m_TargetAssemblyTypeName: F4B1.Core.Train, Assembly-CSharp
+        m_MethodName: SpawnIntersectionChangers
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _actionResponses: []
+  _conditions: []
+  _operator: 0
+  _replayEventBufferOnRegister: 1
+  _eventReference:
+    _usage: 0
+    _event: {fileID: 11400000, guid: a673dbe70b09b764696f098e115ac275, type: 2}
+    _eventInstancer: {fileID: 0}
+    _variable: {fileID: 0}
+    _variableInstancer: {fileID: 0}
+--- !u!114 &6699514391291358422
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -301,7 +340,7 @@ MonoBehaviour:
   _replayEventBufferOnRegister: 1
   _eventReference:
     _usage: 0
-    _event: {fileID: 11400000, guid: 097f679a277be3a44a64c7902ce94bfb, type: 2}
+    _event: {fileID: 11400000, guid: e33e1ac0dda1a36478cc5bf10dd77b03, type: 2}
     _eventInstancer: {fileID: 0}
     _collection: {fileID: 0}
     _list: {fileID: 0}
@@ -348,6 +387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4402338363630380311}
   - component: {fileID: 4402338363630380310}
+  - component: {fileID: 1541165078}
   m_Layer: 0
   m_Name: Path
   m_TagString: Untagged
@@ -390,7 +430,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9b332ce0fea720f4481072767921fbfe, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -416,7 +456,7 @@ LineRenderer:
   - {x: 1.61, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 0.3
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -464,11 +504,32 @@ LineRenderer:
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
-    textureMode: 0
+    textureMode: 1
     shadowBias: 0.5
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!95 &1541165078
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4402338363630380304}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0d7c9d7a9ca748c448be56d3f421fe43, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6102985260920231944
 GameObject:
   m_ObjectHideFlags: 0

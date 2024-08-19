@@ -28,6 +28,7 @@ namespace F4B1.Core
         [SerializeField] private IntVariable railCount;
         [SerializeField] private StringVariable selectedItem;
         [SerializeField] private VoidEvent railNetworkUpdated;
+        [SerializeField] private Vector2ValueList intersections;
 
         [Header("Tilemap")] 
         [SerializeField] private Tilemap tilemap;
@@ -58,6 +59,7 @@ namespace F4B1.Core
             if (tilemap.HasTile(cell)) return;
             var tile = GetCorrectTile(cell);
             tilemap.SetTile(cell, tile);
+            CheckForIntersections(cell);
             UpdateSurroundingTiles(cell);
             UpdateSurroundingPlants((Vector3)cell, true);
 
@@ -76,6 +78,7 @@ namespace F4B1.Core
                     if (!tilemap.HasTile(surroundedCell)) continue;
                     var tile = GetCorrectTile(surroundedCell);
                     tilemap.SetTile(surroundedCell, tile);
+                    CheckForIntersections(surroundedCell);
                 }
             }
         }
@@ -85,6 +88,19 @@ namespace F4B1.Core
             var plant = GetSurroundingPlant((Vector3)cell);
             if (plant)
                 plant.SetConnection((Vector3)cell, connect);
+        }
+
+        private void CheckForIntersections(Vector3Int pos)
+        {
+            var possibleDirections = TrainNavigator.GetPossibleDirectionsList(tilemap, pos);
+            var cell = new Vector2(pos.x, pos.y);
+            if (possibleDirections.Length >= 3)
+            {
+                if (!intersections.Contains(cell)) 
+                    intersections.Add(cell);
+            }
+            else if (intersections.Contains(cell))
+                intersections.Remove(cell);
         }
 
         private TileBase GetCorrectTile(Vector3Int cell)
@@ -124,6 +140,7 @@ namespace F4B1.Core
         {
             var cell = Vector3Int.RoundToInt(position);
             tilemap.SetTile(cell, null);
+            if (intersections.Contains(position)) intersections.Remove(position);
             UpdateSurroundingTiles(cell);
             railCount.Add(1);
             railNetworkUpdated.Raise();

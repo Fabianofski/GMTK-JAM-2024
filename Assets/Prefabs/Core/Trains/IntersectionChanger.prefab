@@ -63,6 +63,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: e33e1ac0dda1a36478cc5bf10dd77b03, type: 2}
+        m_TargetAssemblyTypeName: UnityAtoms.BaseAtoms.VoidEvent, UnityAtoms.UnityAtomsBaseAtoms.Runtime
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   hoverEnterEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -86,11 +98,13 @@ MonoBehaviour:
   down: {fileID: 913182647, guid: c13b2d10b10b6094da2f50d783f4d563, type: 3}
   left: {fileID: -1220117274, guid: c13b2d10b10b6094da2f50d783f4d563, type: 3}
   right: {fileID: 1517647668, guid: c13b2d10b10b6094da2f50d783f4d563, type: 3}
+  all: {fileID: -170563598, guid: c13b2d10b10b6094da2f50d783f4d563, type: 3}
   possibleDirections:
   - {x: 0, y: 1}
   - {x: 1, y: 0}
   - {x: 0, y: -1}
   - {x: -1, y: 0}
+  spriteRenderer: {fileID: 2200070649762077973}
 --- !u!212 &2200070649762077973
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -132,7 +146,7 @@ SpriteRenderer:
   m_SortingLayerID: 432283293
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 598768802, guid: c13b2d10b10b6094da2f50d783f4d563, type: 3}
+  m_Sprite: {fileID: -170563598, guid: c13b2d10b10b6094da2f50d783f4d563, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
