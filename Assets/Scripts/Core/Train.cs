@@ -6,6 +6,7 @@
 //  **/
 
 using System.Collections.Generic;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 
 namespace F4B1.Core
@@ -19,6 +20,7 @@ namespace F4B1.Core
         [SerializeField] private bool reachedDeadEnd;
         [SerializeField] private Vector2 targetPos;
         [SerializeField] private float speed = 10;
+        [SerializeField] private BoolVariable gamePaused;
 
         [Header("Waggons")] 
         [SerializeField] private int waggonCount;
@@ -80,6 +82,8 @@ namespace F4B1.Core
 
         private void Update()
         {
+            if (gamePaused.Value) return;
+            
             if (!ReachedTargetPos() && !reachedDeadEnd) Move();
             else CalculateNewPosition();
         }

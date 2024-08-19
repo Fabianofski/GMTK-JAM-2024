@@ -1013,6 +1013,7 @@ MonoBehaviour:
   plantHasEnoughResources: 0
   produceAmount: 1
   progress: {fileID: 4479117668286194025}
+  gamePaused: {fileID: 11400000, guid: 541219b76bd3d2f458f84da7a8a0f645, type: 2}
   connectionTile: {fileID: 11400000, guid: d59ae08ebe5cadd488d74a52b9fc609d, type: 2}
   stored: 20
   capacity: 30

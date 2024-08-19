@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using F4B1.UI;
 using TMPro;
+using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -49,6 +50,7 @@ namespace F4B1.Core
         [SerializeField] private bool plantHasEnoughResources;
         [SerializeField] private int produceAmount = 1;
         [SerializeField] private Image progress;
+        [SerializeField] private BoolVariable gamePaused;
         
         [Header("Connections")]
         [SerializeField] private TileBase connectionTile;
@@ -112,6 +114,8 @@ namespace F4B1.Core
 
         private void Update()
         {
+            if (gamePaused.Value) return;
+            
             if (stored == capacity || !plantIsConnected || blueprint)
             {
                 timer = productionTime;
