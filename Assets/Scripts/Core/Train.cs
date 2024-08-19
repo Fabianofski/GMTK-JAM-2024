@@ -21,6 +21,7 @@ namespace F4B1.Core
         [SerializeField] private Vector2 targetPos;
         [SerializeField] private float speed = 10;
         [SerializeField] private BoolVariable gamePaused;
+        private List<Vector3> trainPath;
 
         [Header("Intersections")] [SerializeField]
         private Vector2ValueList intersections;
@@ -87,6 +88,7 @@ namespace F4B1.Core
 
             lineRenderer.positionCount = points.Count;
             lineRenderer.SetPositions(points.ToArray());
+            trainPath = points;
         }
 
         public void SpawnIntersectionChangers()
@@ -96,6 +98,7 @@ namespace F4B1.Core
 
             foreach (var intersection in intersections)
             {
+                // if (!trainPath.Contains(intersection)) return;
                 var go = Instantiate(intersectionChanger, intersection, Quaternion.identity, intersectionParent);
                 var changer = go.GetComponent<IntersectionChanger>();
                 changer.train = this;

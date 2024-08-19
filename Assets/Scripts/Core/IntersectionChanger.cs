@@ -58,7 +58,6 @@ namespace F4B1.Core
 
         private void UpdateIntersection()
         {
-            Setup();
             var selectedDirection = possibleDirections[direction];
             spriteRenderer.sprite = directionSprites[selectedDirection];
 
@@ -67,6 +66,7 @@ namespace F4B1.Core
 
         public void SetDirection(Vector2 dir)
         {
+            Setup();
             for (var i = 0; i < possibleDirections.Length; i++)
                 if (possibleDirections[i] == dir)
                 {
