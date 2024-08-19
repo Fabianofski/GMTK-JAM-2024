@@ -809,6 +809,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 256653620015068412}
     m_Modifications:
+    - target: {fileID: 1578007607275843076, guid: 2b8fddcf56888f844a490f14e6818ad3, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4212511079519014309, guid: 2b8fddcf56888f844a490f14e6818ad3, type: 3}
       propertyPath: m_Name
       value: Quickbar

@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1018164049472438924, guid: 28ff687bd50f6f743b5a70137844fc7a, type: 3}
       propertyPath: m_Name
-      value: WaggonFactory Variant
+      value: WaggonFactory
       objectReference: {fileID: 0}
     - target: {fileID: 3088654461518487556, guid: 28ff687bd50f6f743b5a70137844fc7a, type: 3}
       propertyPath: upgrade
