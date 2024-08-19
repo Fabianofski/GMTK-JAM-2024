@@ -98,6 +98,8 @@ MonoBehaviour:
   waggonCount: 3
   waggonPrefab: {fileID: 8197080431328340148, guid: fe37ec7a671cb8f4abd44abcdb055ceb, type: 3}
   waggonParent: {fileID: 8269921344649726261}
+  selectedUpgrade: {fileID: 11400000, guid: d9b2a5f1fb76fee4b86c464d40665857, type: 2}
+  selectedFactory: {fileID: 11400000, guid: b673e8a17ee12f645a1e9648db8dd5fe, type: 2}
 --- !u!114 &4402338362816524551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,6 +133,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4402338362816524549}
+        m_TargetAssemblyTypeName: F4B1.Core.Train, Assembly-CSharp
+        m_MethodName: CheckForWaggonUpgrade
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

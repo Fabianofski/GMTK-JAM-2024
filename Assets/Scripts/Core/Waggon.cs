@@ -72,6 +72,12 @@ namespace F4B1.Core
             oldDirection = direction;
         }
 
+        public void SetOldDirection(Vector2 direction)
+        {
+            oldDirection = direction;
+            UpdateAnimator(direction);
+        }
+        
         private void ApplyOffset(Vector2 direction)
         {
             var pos = transform.position;
