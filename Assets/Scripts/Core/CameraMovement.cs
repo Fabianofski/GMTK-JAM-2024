@@ -19,6 +19,7 @@ namespace F4B1.Core
         private Vector2 input;
         [SerializeField] private InputAction moveInputAction;
         [SerializeField] private Transform cameraTarget;
+        private Transform newTarget;
         [SerializeField] private float speed;
 
         [Header("Scrolling")] 
@@ -48,26 +49,25 @@ namespace F4B1.Core
             input = moveInputAction.ReadValue<Vector2>();
             scrollInput = onScrollAction.ReadValue<Vector2>().y;
             
-            cameraTarget.Translate(input * (speed * Time.deltaTime));
             scrollSize += scrollInput * scrollSpeed * Time.deltaTime;
             scrollSize = Math.Clamp(scrollSize, scrollBounds.x, scrollBounds.y);
             pixelPerfectCamera.assetsPPU = Mathf.RoundToInt(scrollSize);
-        }
 
-        public void OnNavigate(InputValue value)
-        {
-            cinemachine.Follow = cameraTarget;
-            input = value.Get<Vector2>();
-        }
-
-        public void OnScroll(InputValue value)
-        {
-            scrollInput = -value.Get<Vector2>().y;
+            if (newTarget && input == Vector2.zero)
+                cameraTarget.position = newTarget.position;
+            else if (newTarget)
+            {
+                cinemachine.Follow = cameraTarget;
+                newTarget = null; 
+            }
+            else
+                cameraTarget.Translate(input * (speed * Time.deltaTime));
         }
 
         public void SetCameraTarget(GameObject target)
         {
             cinemachine.Follow = target.transform;
+            newTarget = target.transform;
         }
     }
 }

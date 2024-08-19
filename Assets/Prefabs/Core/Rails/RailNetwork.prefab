@@ -121,6 +121,9 @@ MonoBehaviour:
     tile: {fileID: 11400000, guid: 0e2282f98905cf040b4fe5dc7fc179f0, type: 2}
   defaultTile: {fileID: 11400000, guid: b54de36b0e2310e469cb34f61d7f8052, type: 2}
   railRemover: {fileID: 3626197464551696248, guid: d772d14f58f4a4f40aff4230e754d716, type: 3}
+  plantMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &9209579239749542469
 MonoBehaviour:
   m_ObjectHideFlags: 0

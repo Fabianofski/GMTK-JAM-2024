@@ -6,10 +6,12 @@
 //  **/
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using F4B1.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 namespace F4B1.Core
@@ -31,6 +33,13 @@ namespace F4B1.Core
 
     public class ProductionPlant : MonoBehaviour
     {
+        [Header("Blueprint")]
+        [SerializeField] private PlantResources[] neededBlueprintResources = { };
+        [SerializeField] private Sprite blueprintSprite;
+        private bool blueprint = true;
+        private SpriteRenderer spriteRenderer;
+        private Sprite defaultSprite;
+        
         [Header("Production")] 
         [SerializeField] private PlantResources[] neededResources = { };
         [SerializeField] private GameObject uiNeededResourcePrefab;
@@ -38,9 +47,14 @@ namespace F4B1.Core
         [SerializeField] private float productionTime = 1;
         private float timer;
         [SerializeField] private bool plantHasEnoughResources;
-        [SerializeField] private bool plantIsConnected;
         [SerializeField] private int produceAmount = 1;
         [SerializeField] private Image progress;
+        
+        [Header("Connections")]
+        [SerializeField] private TileBase connectionTile;
+        private bool plantIsConnected;
+        private readonly List<Vector2> connections = new();
+        private Tilemap connectionMap;
 
         [Header("Output")] 
         [SerializeField] private int stored = 20;
@@ -54,15 +68,30 @@ namespace F4B1.Core
         {
             UpdateText();
 
-            foreach (var neededResource in neededResources)
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            defaultSprite = spriteRenderer.sprite;
+            spriteRenderer.sprite = blueprint ? blueprintSprite : defaultSprite;
+
+            var tilemapGo = GameObject.FindGameObjectWithTag("ConnectionMap");
+            connectionMap = tilemapGo.GetComponent<Tilemap>();
+            
+            CreateNeededResourceUI(blueprint ? neededBlueprintResources : neededResources);
+
+            timer = productionTime;
+            CheckResources();
+        }
+
+        private void CreateNeededResourceUI(PlantResources[] resources)
+        {
+            for (var i = 0; i < uiNeededResourceParent.childCount; i++)
+               Destroy(uiNeededResourceParent.GetChild(i).gameObject);
+            
+            foreach (var neededResource in resources)
             {
                 var go = Instantiate(uiNeededResourcePrefab, uiNeededResourceParent);
                 neededResource.ui = go.GetComponentInChildren<UINeededResource>();
                 neededResource.UpdateUI();
             }
-
-            timer = productionTime;
-            CheckResources();
         }
 
         private void UpdateText()
@@ -83,7 +112,12 @@ namespace F4B1.Core
 
         private void Update()
         {
-            if (stored == capacity || !plantIsConnected) return;
+            if (stored == capacity || !plantIsConnected || blueprint)
+            {
+                timer = productionTime;
+                progress.fillAmount = 0;
+                return;
+            }
             
             if (timer <= 0)
             {
@@ -115,13 +149,28 @@ namespace F4B1.Core
 
         private void CheckResources()
         {
-            plantHasEnoughResources = neededResources.All(resource => resource.neededAmount <= resource.storedAmount);
+            if (blueprint)
+            {
+                var blueprintHasEnoughResources = neededBlueprintResources.All(resource => resource.neededAmount <= resource.storedAmount);
+                if (blueprintHasEnoughResources) ExitBlueprintState();
+            }
+            else 
+                plantHasEnoughResources = neededResources.All(resource => resource.neededAmount <= resource.storedAmount);
+        }
+
+        private void ExitBlueprintState()
+        {
+            blueprint = false;
+            spriteRenderer.sprite = defaultSprite;
+            CreateNeededResourceUI(neededResources);
+            CheckResources();
         }
 
         private void EmptyWaggon(Waggon waggon)
         {
             var waggonResourceId = waggon.GetResourceId();
-            var plantResource = neededResources.FirstOrDefault(x => x.id == waggonResourceId);
+            var resources = blueprint ? neededBlueprintResources : neededResources;
+            var plantResource = resources.FirstOrDefault(x => x.id == waggonResourceId);
             if (plantResource == null) return;
 
             var diff = plantResource.capacity - plantResource.storedAmount;
@@ -137,6 +186,16 @@ namespace F4B1.Core
         {
             stored -= waggon.Fill(resourceId, stored);
             UpdateText();
+        }
+
+        public void SetConnection(Vector2 cell, bool connect)
+        {
+            if (connect) 
+                connections.Add(cell);
+            else
+                connections.Remove(cell);
+            connectionMap.SetTile(Vector3Int.RoundToInt(cell), connect ? connectionTile : null);
+            plantIsConnected = connections.Count > 0;
         }
     }
 }

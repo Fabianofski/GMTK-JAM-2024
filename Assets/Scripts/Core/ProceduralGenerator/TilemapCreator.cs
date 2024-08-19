@@ -69,7 +69,7 @@ namespace F4B1.Core.ProceduralGenerator
                     if (distance < 6) continue;
 
                     var buildingPos = new Vector2(pos.x + 0.5f, pos.y + 0.5f);
-                    var hit = Physics2D.BoxCast(buildingPos, Vector2.one * 3, 0, Vector2.zero, 1, mask.value);
+                    var hit = Physics2D.BoxCast(buildingPos, Vector2.one * 6, 0, Vector2.zero, 1, mask.value);
                     if (hit) continue;
 
                     var rate = spawnRates[biome];
