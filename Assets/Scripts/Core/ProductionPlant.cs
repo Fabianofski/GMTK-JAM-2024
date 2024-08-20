@@ -57,7 +57,7 @@ namespace F4B1.Core
         private TileBase connectionTile;
         [SerializeField] private LayerMask railMask;
 
-        private bool plantIsConnected;
+        [SerializeField] private bool plantIsConnected;
         private readonly List<Vector2> connections = new();
         private Tilemap connectionMap;
 
@@ -125,11 +125,12 @@ namespace F4B1.Core
                     var position = origin + new Vector3(i, -j, 0);
                     var hit = Physics2D.Raycast(position, Vector2.zero, 0, railMask.value);
                         
-                    if (!hit) return;
+                    if (!hit) continue;
                     connectionMap.SetTile(Vector3Int.RoundToInt(position), connectionTile);
                     connections.Add(position);
                 }
             }
+            plantIsConnected = connections.Count > 0;
         }
 
         private void CreateNeededResourceUI(PlantResources[] resources)

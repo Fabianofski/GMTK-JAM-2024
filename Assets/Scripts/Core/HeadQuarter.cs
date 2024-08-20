@@ -16,7 +16,8 @@ namespace F4B1.Core
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            var waggon = other.GetComponentInChildren<Waggon>();
+            if (!other.transform.parent) return;
+            var waggon = other.transform.parent.GetComponentInChildren<Waggon>();
             if (!waggon) return;
 
             EmptyWaggon(waggon);
