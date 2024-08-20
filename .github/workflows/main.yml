@@ -60,11 +60,11 @@ jobs:
         with:
           targetPlatform: ${{ matrix.targetPlatform.platform }}
           unityVersion: 2021.3.27f1
-          buildName: GMTK-2024
+          buildName: RailScale
 
       - uses: actions/upload-artifact@v3
         with:
-          name: GMTK-2024-${{ matrix.targetPlatform.name }}
+          name: RailScale-${{ matrix.targetPlatform.name }}
           path: build/${{ matrix.targetPlatform.platform }}
 
       - name: Deploy to itch.io
@@ -73,6 +73,6 @@ jobs:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: ${{ matrix.targetPlatform.name }}
           VERSION: 1.0
-          ITCH_GAME: gmtk-2024
+          ITCH_GAME: RailScale
           ITCH_USER: f4b1
           PACKAGE: build/${{ matrix.targetPlatform.platform }}
