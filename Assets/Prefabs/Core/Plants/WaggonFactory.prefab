@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: upgrade
       value: waggon
       objectReference: {fileID: 0}
+    - target: {fileID: 4368190137240628340, guid: 28ff687bd50f6f743b5a70137844fc7a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: eb0591bc91bc6884f8a86ab1abc4335d, type: 3}
     - target: {fileID: 4590601266904589088, guid: 28ff687bd50f6f743b5a70137844fc7a, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -91,6 +95,10 @@ PrefabInstance:
       propertyPath: neededBlueprintResources.Array.data[1].neededAmount
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 6205539339209402489, guid: 28ff687bd50f6f743b5a70137844fc7a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: eb0591bc91bc6884f8a86ab1abc4335d, type: 3}
     - target: {fileID: 8059798609573575692, guid: 28ff687bd50f6f743b5a70137844fc7a, type: 3}
       propertyPath: m_text
       value: Waggon

@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7401073164639860949, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531850, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: m_Name
       value: RailPlant
@@ -147,5 +151,6 @@ PrefabInstance:
       propertyPath: neededBlueprintResources.Array.data[1].neededAmount
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8405135379169111913, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}

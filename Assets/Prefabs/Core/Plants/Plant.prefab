@@ -512,7 +512,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1797408816580840280
 RectTransform:
   m_ObjectHideFlags: 0
@@ -913,6 +913,7 @@ GameObject:
   - component: {fileID: 8015413352512531855}
   - component: {fileID: 8582628006222250738}
   - component: {fileID: 189179932728659887}
+  - component: {fileID: 8405135379169111913}
   m_Layer: 6
   m_Name: Plant
   m_TagString: Untagged
@@ -1018,6 +1019,7 @@ MonoBehaviour:
   railMask:
     serializedVersion: 2
     m_Bits: 256
+  plantIsConnected: 0
   stored: 20
   capacity: 30
   resourceId: wood
@@ -1071,6 +1073,56 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &8405135379169111913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8015413352512531850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed92d327c5bf4474972c3eafac411ecc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMat: {fileID: 2100000, guid: 13e85c1453afdc949b89df0a90a8e790, type: 2}
+  clickEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  toggledEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hoverEnterEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7401073164639860949}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  hoverExitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7401073164639860949}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  toggleable: 0
 --- !u!1 &8885154347602853773
 GameObject:
   m_ObjectHideFlags: 0
