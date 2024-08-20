@@ -60,6 +60,8 @@ namespace F4B1.Core
             animator = GetComponent<Animator>();
             UpdateAnimator();
             AddAllWaggons();
+            
+            SpawnIntersectionChangers();
         }
 
         private void AddAllWaggons()
