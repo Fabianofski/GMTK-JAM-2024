@@ -69,7 +69,7 @@ namespace F4B1.Core
             spriteRenderer.material = defaultMat;
             toggle = false;
             selected = null;
-            clickEvent.Invoke(toggle);
+            if (toggleable) clickEvent.Invoke(toggle);
         }
 
         private void SomethingElseSelected(GameObject newSelection)
