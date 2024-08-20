@@ -23,10 +23,16 @@ namespace F4B1.Core.ProceduralGenerator
 
     public class TilemapCreator : MonoBehaviour
     {
-        [Header("Tilemaps")] [SerializeField] private Tilemap tilemap;
+        [Header("Tilemaps")] 
+        [SerializeField] private Tilemap tilemap;
+        [SerializeField] private Tilemap waterTilemap;
         [SerializeField] private TileBase[] tiles;
+        [SerializeField] private TileBase[] backTiles;
         [SerializeField] private BiomeSpawnRate[] spawnRates;
-        [FormerlySerializedAs("productionPlant")] [SerializeField] private Transform plantParent;
+
+        [FormerlySerializedAs("productionPlant")] [SerializeField]
+        private Transform plantParent;
+
         [SerializeField] private GameObject metal;
         [SerializeField] private GameObject wood;
         [SerializeField] private LayerMask mask;
@@ -62,9 +68,26 @@ namespace F4B1.Core.ProceduralGenerator
                 {
                     var distance = Mathf.Sqrt(Mathf.Pow(x - size / 2, 2) + Mathf.Pow(y - size / 2, 2));
                     var biome = distance > 12 ? map[x, y] : 1;
-                    var tile = tiles[biome];
                     var pos = new Vector3Int(x - size / 2, y - size / 2, 0);
-                    tilemap.SetTile(pos, tile);
+
+                    if (biome != 0)
+                    {
+                        var tile = tiles[biome];
+                        tilemap.SetTile(pos, tile);
+                    }
+                    else
+                    {
+                        waterTilemap.SetTile(pos, tiles[0]);
+                        if (y + 1 < size)
+                        {
+                            var biomeAbove = distance > 12 ? map[x, y + 1] : 1;
+                            if (biomeAbove != 0)
+                            {
+                                var tile = backTiles[biomeAbove - 1];
+                                tilemap.SetTile(pos, tile);
+                            }
+                        }
+                    }
 
                     if (distance < 6) continue;
 
