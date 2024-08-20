@@ -5,6 +5,7 @@
 //  * Distributed under the terms of the MIT license (cf. LICENSE.md file)
 //  **/
 
+using System;
 using System.Linq;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
@@ -19,16 +20,55 @@ namespace F4B1.Core
         [SerializeField] private Vector2Variable mousePos;
         [SerializeField] private GameObject[] blueprints;
 
+        [SerializeField] private Vector2Variable previewPos;
+        [SerializeField] private GameObjectVariable previewGo;
+        [SerializeField] private BoolVariable previewValid;
+
+        [SerializeField] private LayerMask mask;
+        private void Update()
+        {
+            if (selectedItem.Value != "blueprints") return;
+            
+            var blueprint = GetGameObjectByName(selectedBlueprint.Value);
+            if (!blueprint) return;
+
+            var roundedPos = Vector3Int.RoundToInt(mousePos.Value);
+            var tilePos = new Vector3(roundedPos.x + 0.5f, roundedPos.y - 0.5f, 0);
+
+            var hit = Physics2D.BoxCast(tilePos, Vector2.one * 1.8f, 0, Vector2.zero, 0f, mask.value);
+
+            previewValid.SetValue(!hit);
+            previewPos.SetValue(tilePos);
+            previewGo.SetValue(blueprint);
+        }
+
         public void LeftClick(bool isPressed)
         {
-            if (!isPressed || selectedItem.Value != "blueprints" || IsPointerOverUI()) return;
+            if (!isPressed || selectedItem.Value != "blueprints" && IsPointerOverUI()) return;
 
             var blueprint = GetGameObjectByName(selectedBlueprint.Value);
             if (!blueprint) return;
 
             var roundedPos = Vector3Int.RoundToInt(mousePos.Value);
             var tilePos = new Vector3(roundedPos.x + 0.5f, roundedPos.y - 0.5f, 0);
+
+            var hit = Physics2D.BoxCast(tilePos, Vector2.one, 0, Vector2.zero, 0f, mask.value);
+            if (hit) return;
+            
             Instantiate(blueprint, tilePos, Quaternion.identity);
+
+            selectedBlueprint.SetValue("none");
+            selectedItem.SetValue("none");
+            previewGo.Reset();
+        }
+
+        public void RightClick(bool isPressed)
+        {
+            if (!isPressed || selectedItem.Value != "blueprints") return;
+            
+            selectedBlueprint.SetValue("none");
+            selectedItem.SetValue("none");
+            previewGo.Reset();
         }
 
         private GameObject GetGameObjectByName(string goName)

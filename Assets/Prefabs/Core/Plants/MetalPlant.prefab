@@ -112,8 +112,12 @@ PrefabInstance:
       value: metal
       objectReference: {fileID: 0}
     - target: {fileID: 8015413352512531855, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
+      propertyPath: produceAmount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8015413352512531855, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}
       propertyPath: productionTime
-      value: 3
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1340fdb319a96034ca4d051e5a3318dd, type: 3}

@@ -52,6 +52,10 @@ namespace F4B1.Core
         private void Start()
         {
             navigator = FindObjectOfType<TrainNavigator>();
+            var pos = Vector3Int.RoundToInt(transform.position);
+            direction = navigator.GetNewDirection(pos, direction);
+            targetPos = (Vector2)(Vector3) pos + direction;
+            
             UpdateTrainLinePath();
             animator = GetComponent<Animator>();
             UpdateAnimator();
@@ -64,9 +68,9 @@ namespace F4B1.Core
                 AddWaggon(transform.position - (Vector3)(direction * i));
         }
 
-        public void CheckForWaggonUpgrade()
+        public void CheckForWaggonUpgrade(bool toggle)
         {
-            if (selectedUpgrade.Value != "waggon") return;
+            if (!toggle || selectedUpgrade.Value != "waggon") return;
 
             var lastWaggon = waggons[^1];
             var waggonPos = lastWaggon ? lastWaggon.transform.position : transform.position;

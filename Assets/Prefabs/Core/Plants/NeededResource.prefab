@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9166884212815247926}
   - component: {fileID: 2873248448069984319}
   - component: {fileID: 8450951607325397372}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 3729082468320756915}
   - component: {fileID: 187991011952011585}
   - component: {fileID: 6584130419931084385}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: stored
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 859472318108209895}
   - component: {fileID: 6665003360515159346}
   - component: {fileID: 174344765584492323}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: needed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 8631209254448042841}
   - component: {fileID: 6921398185119940764}
   - component: {fileID: 6619581916767768791}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: capacity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -442,8 +442,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 3
-  m_fontSizeBase: 3
+  m_fontSize: 2.6
+  m_fontSizeBase: 2.6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -494,7 +494,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3405757471333511795}
   - component: {fileID: 1285366284310468992}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NeededResource
   m_TagString: Untagged
   m_Icon: {fileID: 0}

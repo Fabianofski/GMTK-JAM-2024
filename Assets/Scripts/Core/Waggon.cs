@@ -5,6 +5,7 @@
 //  * Distributed under the terms of the MIT license (cf. LICENSE.md file)
 //  **/
 
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -20,7 +21,9 @@ namespace F4B1.Core
         [SerializeField] private Color gold;
         [SerializeField] private int capacity = 10;
         [SerializeField] private string storedResourceId = "empty";
-        [SerializeField] private int stored = 0;
+        [SerializeField] private int stored;
+
+        private List<string> blockedResources = new List<string>();
 
         private Animator animator;
         private Animator contentAnimator;
@@ -91,6 +94,7 @@ namespace F4B1.Core
         public int Fill(string resourceId, int maxAmount)
         {
             if (storedResourceId != "empty" && storedResourceId != resourceId) return 0;
+            if (blockedResources.Contains(resourceId)) return 0;
 
             var diff = Mathf.Min(maxAmount, capacity - stored);
             stored += diff;
@@ -139,6 +143,21 @@ namespace F4B1.Core
                UpdateStoredResource("empty"); 
 
             return amount;
+        }
+
+        public void BlockResource(string resource, bool value)
+        {
+            if (value)
+                blockedResources.Add(resource);
+            else
+                blockedResources.Remove(resource);
+        }
+
+        public void ClearWaggon()
+        {
+            stored = 0;
+            UpdateText();
+            UpdateStoredResource("empty");
         }
     }
 }

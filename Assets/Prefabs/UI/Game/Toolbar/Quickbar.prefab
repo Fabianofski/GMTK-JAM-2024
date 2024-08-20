@@ -100,7 +100,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4212511079519014309}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -295,6 +295,14 @@ PrefabInstance:
     - target: {fileID: 1223662818033950495, guid: f953545b137873746b6cf958b7148fbf, type: 3}
       propertyPath: m_Name
       value: ToolbarBtn
+      objectReference: {fileID: 0}
+    - target: {fileID: 4569112745178365981, guid: f953545b137873746b6cf958b7148fbf, type: 3}
+      propertyPath: m_text
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 4569112745178365981, guid: f953545b137873746b6cf958b7148fbf, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6348514663066567184, guid: f953545b137873746b6cf958b7148fbf, type: 3}
       propertyPath: m_Group

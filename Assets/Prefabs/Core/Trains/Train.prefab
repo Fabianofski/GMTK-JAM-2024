@@ -4993,7 +4993,7 @@ GameObject:
   - component: {fileID: 6699514391291358422}
   - component: {fileID: 1525180851263165474}
   - component: {fileID: 2224241478742966672}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Locomotive
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5063,19 +5063,6 @@ MonoBehaviour:
   clickEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: c3c8b4ddf5da8f24ca4640bbfaa7e3ff, type: 2}
-        m_TargetAssemblyTypeName: UnityAtoms.AtomEvent`1[[UnityEngine.GameObject,
-          UnityEngine
-        m_MethodName: Raise
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 4402338362816524544}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 4402338363113014693}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -5091,10 +5078,38 @@ MonoBehaviour:
       - m_Target: {fileID: 4402338362816524549}
         m_TargetAssemblyTypeName: F4B1.Core.Train, Assembly-CSharp
         m_MethodName: CheckForWaggonUpgrade
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4402338363630380304}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  toggledEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: c3c8b4ddf5da8f24ca4640bbfaa7e3ff, type: 2}
+        m_TargetAssemblyTypeName: UnityAtoms.AtomEvent`1[[UnityEngine.GameObject,
+          UnityEngine
+        m_MethodName: RaiseEditor
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 4402338362816524544}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5287,18 +5302,6 @@ MonoBehaviour:
       - m_Target: {fileID: 4402338362816524549}
         m_TargetAssemblyTypeName: F4B1.Core.Train, Assembly-CSharp
         m_MethodName: UpdateTrainLinePath
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4402338362816524549}
-        m_TargetAssemblyTypeName: F4B1.Core.Train, Assembly-CSharp
-        m_MethodName: SpawnIntersectionChangers
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

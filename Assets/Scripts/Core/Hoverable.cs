@@ -14,20 +14,42 @@ namespace F4B1.Core
     [RequireComponent(typeof(Collider2D))]
     public class Hoverable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
-
         private SpriteRenderer spriteRenderer;
         [SerializeField] private Material outlineMat;
         [SerializeField] private UnityEvent<bool> clickEvent;
+        [SerializeField] private UnityEvent toggledEvent;
         [SerializeField] private UnityEvent<bool> hoverEnterEvent;
         [SerializeField] private UnityEvent<bool> hoverExitEvent;
         [SerializeField] private bool toggleable;
         private bool toggle;
         private Material defaultMat;
 
+        private static GameObject selected;
+        public static event UnityAction<GameObject> OnSelectedChanged;
+
+        public static GameObject Selected
+        {
+            set
+            {
+                if (selected != value)
+                {
+                    selected = value;
+                    OnSelectedChanged?.Invoke(selected);
+                }
+            }
+        }
+
         private void OnEnable()
         {
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             defaultMat = spriteRenderer.material;
+
+            OnSelectedChanged += SomethingElseSelected;
+        }
+
+        private void OnDisable()
+        {
+            OnSelectedChanged -= SomethingElseSelected;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -46,11 +68,24 @@ namespace F4B1.Core
         {
             spriteRenderer.material = defaultMat;
             toggle = false;
+            selected = null;
+            if (toggleable) clickEvent.Invoke(toggle);
+        }
+
+        private void SomethingElseSelected(GameObject newSelection)
+        {
+            if (newSelection != gameObject) DeactivateOutline();
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
             toggle = !toggle;
+            if (toggle)
+            {
+                toggledEvent.Invoke();
+                if (toggleable) Selected = gameObject;
+            }
+
             clickEvent.Invoke(toggle);
         }
     }

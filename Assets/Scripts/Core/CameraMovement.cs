@@ -21,6 +21,8 @@ namespace F4B1.Core
         [SerializeField] private Transform cameraTarget;
         private Transform newTarget;
         [SerializeField] private float speed;
+        [SerializeField] private Vector2 blBounds;
+        [SerializeField] private Vector2 trBounds;
 
         [Header("Scrolling")] 
         private float scrollInput;
@@ -61,7 +63,13 @@ namespace F4B1.Core
                 newTarget = null; 
             }
             else
+            {
                 cameraTarget.Translate(input * (speed * Time.deltaTime));
+                var pos = cameraTarget.position;
+                pos.x = Mathf.Clamp(pos.x, blBounds.x, trBounds.x);
+                pos.y = Mathf.Clamp(pos.y, blBounds.y, trBounds.y);
+                cameraTarget.position = pos;
+            }
         }
 
         public void SetCameraTarget(GameObject target)

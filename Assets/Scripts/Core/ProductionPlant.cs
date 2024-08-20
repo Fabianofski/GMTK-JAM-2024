@@ -34,15 +34,16 @@ namespace F4B1.Core
 
     public class ProductionPlant : MonoBehaviour
     {
-        [Header("Blueprint")]
-        [SerializeField] private PlantResources[] neededBlueprintResources = { };
+        [Header("Blueprint")] [SerializeField] private PlantResources[] neededBlueprintResources = { };
         [SerializeField] private Sprite blueprintSprite;
         private bool blueprint = true;
+        private bool preview = false;
         private SpriteRenderer spriteRenderer;
         private Sprite defaultSprite;
-        
-        [Header("Production")] 
-        [SerializeField] private PlantResources[] neededResources = { };
+
+        [Header("Production")] [SerializeField]
+        private PlantResources[] neededResources = { };
+
         [SerializeField] private GameObject uiNeededResourcePrefab;
         [SerializeField] private Transform uiNeededResourceParent;
         [SerializeField] private float productionTime = 1;
@@ -51,15 +52,16 @@ namespace F4B1.Core
         [SerializeField] private int produceAmount = 1;
         [SerializeField] private Image progress;
         [SerializeField] private BoolVariable gamePaused;
-        
-        [Header("Connections")]
-        [SerializeField] private TileBase connectionTile;
+
+        [Header("Connections")] [SerializeField]
+        private TileBase connectionTile;
+        [SerializeField] private LayerMask railMask;
+
         private bool plantIsConnected;
         private readonly List<Vector2> connections = new();
         private Tilemap connectionMap;
 
-        [Header("Output")] 
-        [SerializeField] private int stored = 20;
+        [Header("Output")] [SerializeField] private int stored = 20;
         [SerializeField] private int capacity = 30;
         [SerializeField] private string resourceId;
         [SerializeField] private TextMeshProUGUI capacityText;
@@ -67,7 +69,13 @@ namespace F4B1.Core
         [SerializeField] private Color gold;
 
         public int GetStoredAmount() => stored;
-        
+
+
+        public void PreviewMode()
+        {
+            preview = true;
+        }
+
         private void Start()
         {
             UpdateText();
@@ -78,18 +86,57 @@ namespace F4B1.Core
 
             var tilemapGo = GameObject.FindGameObjectWithTag("ConnectionMap");
             connectionMap = tilemapGo.GetComponent<Tilemap>();
-            
+            CheckConnections();
+
             CreateNeededResourceUI(blueprint ? neededBlueprintResources : neededResources);
+
+            if (preview)
+            {
+                gameObject.layer = 2;
+                if (TryGetComponent<Factory>(out var factory))
+                    Destroy(factory);
+                Destroy(this);
+            }
 
             timer = productionTime;
             CheckResources();
         }
 
+        private void CheckConnections()
+        {
+            int[,] grid =
+            {
+                { 0, 1, 1, 0 },
+                { 1, 0, 0, 1 },
+                { 1, 0, 0, 1 },
+                { 0, 1, 1, 0 }
+            };
+
+            var rows = grid.GetLength(0);
+            var cols = grid.GetLength(1);
+            var origin = transform.position - new Vector3(1.5f, -1.5f, 0);
+
+            for (var i = 0; i < rows; i++)
+            {
+                for (var j = 0; j < cols; j++)
+                {
+                    if (grid[i, j] != 1) continue;
+
+                    var position = origin + new Vector3(i, -j, 0);
+                    var hit = Physics2D.Raycast(position, Vector2.zero, 0, railMask.value);
+                        
+                    if (!hit) return;
+                    connectionMap.SetTile(Vector3Int.RoundToInt(position), connectionTile);
+                    connections.Add(position);
+                }
+            }
+        }
+
         private void CreateNeededResourceUI(PlantResources[] resources)
         {
             for (var i = 0; i < uiNeededResourceParent.childCount; i++)
-               Destroy(uiNeededResourceParent.GetChild(i).gameObject);
-            
+                Destroy(uiNeededResourceParent.GetChild(i).gameObject);
+
             foreach (var neededResource in resources)
             {
                 var go = Instantiate(uiNeededResourcePrefab, uiNeededResourceParent);
@@ -100,14 +147,15 @@ namespace F4B1.Core
 
         private void UpdateText()
         {
-            storedText.text = $"{stored}"; 
+            storedText.text = $"{stored}";
             storedText.color = stored == capacity ? gold : Color.white;
             capacityText.text = $"/{capacity}";
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            var waggon = other.GetComponentInChildren<Waggon>();
+            if (!other.transform.parent) return;
+            var waggon = other.transform.parent.GetComponentInChildren<Waggon>();
             if (!waggon) return;
 
             EmptyWaggon(waggon);
@@ -117,20 +165,20 @@ namespace F4B1.Core
         private void Update()
         {
             if (gamePaused.Value) return;
-            
+
             if (stored == capacity || !plantIsConnected || blueprint)
             {
                 timer = productionTime;
                 progress.fillAmount = 0;
                 return;
             }
-            
+
             if (timer <= 0)
             {
                 timer = productionTime;
                 progress.fillAmount = 1 - timer / productionTime;
                 ProduceItem();
-            } 
+            }
             else if (plantHasEnoughResources)
             {
                 timer -= Time.deltaTime;
@@ -149,7 +197,7 @@ namespace F4B1.Core
             stored += produceAmount;
             stored = Mathf.Min(stored, capacity);
             UpdateText();
-            
+
             CheckResources();
         }
 
@@ -157,11 +205,13 @@ namespace F4B1.Core
         {
             if (blueprint)
             {
-                var blueprintHasEnoughResources = neededBlueprintResources.All(resource => resource.neededAmount <= resource.storedAmount);
+                var blueprintHasEnoughResources =
+                    neededBlueprintResources.All(resource => resource.neededAmount <= resource.storedAmount);
                 if (blueprintHasEnoughResources) ExitBlueprintState();
             }
-            else 
-                plantHasEnoughResources = neededResources.All(resource => resource.neededAmount <= resource.storedAmount);
+            else
+                plantHasEnoughResources =
+                    neededResources.All(resource => resource.neededAmount <= resource.storedAmount);
         }
 
         private void ExitBlueprintState()
@@ -202,7 +252,7 @@ namespace F4B1.Core
 
         public void SetConnection(Vector2 cell, bool connect)
         {
-            if (connect) 
+            if (connect)
                 connections.Add(cell);
             else
                 connections.Remove(cell);

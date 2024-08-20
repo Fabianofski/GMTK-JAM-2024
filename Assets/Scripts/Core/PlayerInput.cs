@@ -16,6 +16,7 @@ namespace F4B1.Core
 
         [SerializeField] private Vector2Variable mousePos;
         [SerializeField] private BoolEvent leftClick;
+        [SerializeField] private BoolEvent rightClick;
 
         public void OnMouseMove(InputValue value)
         {
@@ -26,6 +27,11 @@ namespace F4B1.Core
         public void OnClick(InputValue value)
         {
             leftClick.Raise(value.isPressed);
+        }
+
+        public void OnRightClick(InputValue value)
+        {
+            rightClick.Raise(value.isPressed);
         }
     }
 }
