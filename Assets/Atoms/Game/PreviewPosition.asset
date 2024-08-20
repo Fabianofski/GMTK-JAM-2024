@@ -9,16 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fdbbdbe4268c4d729a51bde5e681e8c, type: 3}
-  m_Name: SelectedBlueprint
+  m_Script: {fileID: 11500000, guid: f76a04b727336433cb49bbba3dbe9175, type: 3}
+  m_Name: PreviewPosition
   m_EditorClassIdentifier: 
   _developerDescription: 
   _id: 
-  _value: none
-  _changed: {fileID: 11400000, guid: 15262dfa5224fea4bbd4a6e24a114bda, type: 2}
+  _value: {x: 0, y: 0}
+  _changed: {fileID: 0}
   _changedWithHistory: {fileID: 0}
   _triggerChangedOnOnEnable: 0
   _triggerChangedWithHistoryOnOnEnable: 0
-  _oldValue: none
-  _initialValue: none
+  _oldValue: {x: 0, y: 0}
+  _initialValue: {x: 0, y: 0}
   _preChangeTransformers: []

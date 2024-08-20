@@ -397,6 +397,9 @@ MonoBehaviour:
   outlineMat: {fileID: 2100000, guid: 13e85c1453afdc949b89df0a90a8e790, type: 2}
   clickEvent:
     m_PersistentCalls:
+      m_Calls: []
+  toggledEvent:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3088654461518487556}
         m_TargetAssemblyTypeName: F4B1.Core.Factory, Assembly-CSharp
@@ -410,9 +413,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  toggledEvent:
-    m_PersistentCalls:
-      m_Calls: []
   hoverEnterEvent:
     m_PersistentCalls:
       m_Calls: []

@@ -38,6 +38,7 @@ namespace F4B1.Core
         [SerializeField] private PlantResources[] neededBlueprintResources = { };
         [SerializeField] private Sprite blueprintSprite;
         private bool blueprint = true;
+        private bool preview = false;
         private SpriteRenderer spriteRenderer;
         private Sprite defaultSprite;
         
@@ -67,6 +68,12 @@ namespace F4B1.Core
         [SerializeField] private Color gold;
 
         public int GetStoredAmount() => stored;
+
+
+        public void PreviewMode()
+        {
+            preview = true;
+        }
         
         private void Start()
         {
@@ -80,6 +87,14 @@ namespace F4B1.Core
             connectionMap = tilemapGo.GetComponent<Tilemap>();
             
             CreateNeededResourceUI(blueprint ? neededBlueprintResources : neededResources);
+
+            if (preview)
+            {
+                gameObject.layer = 2;
+                if (TryGetComponent<Factory>(out var factory))
+                    Destroy(factory);
+                Destroy(this);
+            }
 
             timer = productionTime;
             CheckResources();
