@@ -4993,7 +4993,7 @@ GameObject:
   - component: {fileID: 6699514391291358422}
   - component: {fileID: 1525180851263165474}
   - component: {fileID: 2224241478742966672}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Locomotive
   m_TagString: Untagged
   m_Icon: {fileID: 0}
