@@ -378,30 +378,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   neededBlueprintResources:
   - id: wood
-    neededAmount: 200
+    neededAmount: 30
     storedAmount: 0
-    capacity: 200
+    capacity: 30
     ui: {fileID: 0}
   - id: metal
-    neededAmount: 300
+    neededAmount: 50
     storedAmount: 0
-    capacity: 200
+    capacity: 50
     ui: {fileID: 0}
   blueprintSprite: {fileID: 21300000, guid: dd5e5a5380c99bc4695d6063561c784a, type: 3}
   neededResources:
   - id: wood
-    neededAmount: 80
+    neededAmount: 30
     storedAmount: 0
-    capacity: 160
+    capacity: 60
     ui: {fileID: 0}
   - id: metal
-    neededAmount: 100
+    neededAmount: 50
     storedAmount: 0
-    capacity: 200
+    capacity: 100
     ui: {fileID: 0}
   uiNeededResourcePrefab: {fileID: 9217197431694795751, guid: 838ad91ea2a53384cb3302cd54dbda33, type: 3}
   uiNeededResourceParent: {fileID: 3674593892150611380}
-  productionTime: 1
+  productionTime: 60
   plantHasEnoughResources: 0
   produceAmount: 1
   progress: {fileID: 5183877638220478030}
@@ -410,6 +410,7 @@ MonoBehaviour:
   railMask:
     serializedVersion: 2
     m_Bits: 256
+  plantIsConnected: 0
   stored: 0
   capacity: 1
   resourceId: wood

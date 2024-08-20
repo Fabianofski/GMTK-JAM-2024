@@ -7,6 +7,7 @@
 
 using System;
 using System.Linq;
+using F4B1.Audio;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -23,6 +24,9 @@ namespace F4B1.Core
         [SerializeField] private Vector2Variable previewPos;
         [SerializeField] private GameObjectVariable previewGo;
         [SerializeField] private BoolVariable previewValid;
+
+        [SerializeField] private SoundEvent soundEvent;
+        [SerializeField] private Sound placeSound;
 
         [SerializeField] private LayerMask mask;
         private void Update()
@@ -56,6 +60,7 @@ namespace F4B1.Core
             if (hit) return;
             
             Instantiate(blueprint, tilePos, Quaternion.identity);
+            soundEvent.Raise(placeSound);
 
             selectedBlueprint.SetValue("none");
             selectedItem.SetValue("none");
