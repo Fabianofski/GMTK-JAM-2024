@@ -18,6 +18,7 @@ namespace F4B1.Audio
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
+            _currentlyPlaying = _audioSource.clip.name;
             if (GameObject.FindGameObjectsWithTag("Jukebox").Length > 1)
                 Destroy(gameObject);
             DontDestroyOnLoad(gameObject);
