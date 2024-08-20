@@ -73,6 +73,6 @@ jobs:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
           CHANNEL: ${{ matrix.targetPlatform.name }}
           VERSION: 1.0
-          ITCH_GAME: RailScale
+          ITCH_GAME: rail-scale
           ITCH_USER: f4b1
           PACKAGE: build/${{ matrix.targetPlatform.platform }}
