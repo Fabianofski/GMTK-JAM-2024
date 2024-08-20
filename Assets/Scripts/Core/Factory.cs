@@ -45,5 +45,10 @@ namespace F4B1.Core
             plant.ClearStorage();
             hoverable.DeactivateOutline();
         }
+
+        public void UpgradeCancelled()
+        {
+            hoverable.DeactivateOutline();
+        }
     }
 }

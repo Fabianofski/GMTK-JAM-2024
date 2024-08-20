@@ -298,7 +298,8 @@ GameObject:
   - component: {fileID: 9209579240933501807}
   - component: {fileID: 9209579240933501801}
   - component: {fileID: 9209579240933501800}
-  m_Layer: 0
+  - component: {fileID: 5713313463613246288}
+  m_Layer: 8
   m_Name: RailTilemap
   m_TagString: RailTilemap
   m_Icon: {fileID: 0}
@@ -673,3 +674,19 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!19719996 &5713313463613246288
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9209579240933501806}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
