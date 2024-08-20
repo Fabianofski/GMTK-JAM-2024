@@ -1005,7 +1005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   neededBlueprintResources: []
-  blueprintSprite: {fileID: 21300000, guid: 61c64dcec10e10e4f8cf4b6468c2dc26, type: 3}
+  blueprintSprite: {fileID: 21300000, guid: dd5e5a5380c99bc4695d6063561c784a, type: 3}
   neededResources: []
   uiNeededResourcePrefab: {fileID: 9217197431694795751, guid: 838ad91ea2a53384cb3302cd54dbda33, type: 3}
   uiNeededResourceParent: {fileID: 1399971809807430485}
