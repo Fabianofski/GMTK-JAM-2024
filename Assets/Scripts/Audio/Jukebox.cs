@@ -18,7 +18,7 @@ namespace F4B1.Audio
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
-            if (GameObject.FindGameObjectsWithTag("JukeBox").Length > 1)
+            if (GameObject.FindGameObjectsWithTag("Jukebox").Length > 1)
                 Destroy(gameObject);
             DontDestroyOnLoad(gameObject);
         }
