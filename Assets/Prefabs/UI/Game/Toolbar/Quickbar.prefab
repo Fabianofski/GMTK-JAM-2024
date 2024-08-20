@@ -297,6 +297,10 @@ PrefabInstance:
       value: ToolbarBtn
       objectReference: {fileID: 0}
     - target: {fileID: 4569112745178365981, guid: f953545b137873746b6cf958b7148fbf, type: 3}
+      propertyPath: m_text
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 4569112745178365981, guid: f953545b137873746b6cf958b7148fbf, type: 3}
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}

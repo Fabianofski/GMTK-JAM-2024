@@ -122,6 +122,7 @@ namespace F4B1.Core
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (!other.transform.parent) return;
             var waggon = other.transform.parent.GetComponentInChildren<Waggon>();
             if (!waggon) return;
 

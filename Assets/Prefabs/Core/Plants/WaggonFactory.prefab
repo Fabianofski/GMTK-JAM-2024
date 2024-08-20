@@ -59,6 +59,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6199630321279216748, guid: 28ff687bd50f6f743b5a70137844fc7a, type: 3}
+      propertyPath: neededBlueprintResources.Array.data[0].capacity
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199630321279216748, guid: 28ff687bd50f6f743b5a70137844fc7a, type: 3}
+      propertyPath: neededBlueprintResources.Array.data[1].capacity
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199630321279216748, guid: 28ff687bd50f6f743b5a70137844fc7a, type: 3}
+      propertyPath: neededBlueprintResources.Array.data[0].neededAmount
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199630321279216748, guid: 28ff687bd50f6f743b5a70137844fc7a, type: 3}
+      propertyPath: neededBlueprintResources.Array.data[1].neededAmount
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 8059798609573575692, guid: 28ff687bd50f6f743b5a70137844fc7a, type: 3}
       propertyPath: m_text
       value: Waggon

@@ -376,9 +376,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c60a0af96c2416099c0b08039488dbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  neededBlueprintResources: []
+  neededBlueprintResources:
+  - id: wood
+    neededAmount: 200
+    storedAmount: 0
+    capacity: 200
+    ui: {fileID: 0}
+  - id: metal
+    neededAmount: 300
+    storedAmount: 0
+    capacity: 200
+    ui: {fileID: 0}
   blueprintSprite: {fileID: 21300000, guid: dd5e5a5380c99bc4695d6063561c784a, type: 3}
-  neededResources: []
+  neededResources:
+  - id: wood
+    neededAmount: 80
+    storedAmount: 0
+    capacity: 160
+    ui: {fileID: 0}
+  - id: metal
+    neededAmount: 100
+    storedAmount: 0
+    capacity: 200
+    ui: {fileID: 0}
   uiNeededResourcePrefab: {fileID: 9217197431694795751, guid: 838ad91ea2a53384cb3302cd54dbda33, type: 3}
   uiNeededResourceParent: {fileID: 3674593892150611380}
   productionTime: 1
